@@ -3,12 +3,21 @@ package main
 import "fmt"
 
 func main() {
-	var fruits = []string{"apple"}
-	var aFruits = []string{"watermelon", "pinnaple"}
+	dst := make([]string, 3)
+	src := []string{"watermelon", "pinnaple", "apple", "orange"}
+	n := copy(dst, src)
 
-	var copiedElemen = copy(fruits, aFruits)
+	fmt.Println(dst) // watermelon pinnaple apple
+	fmt.Println(src) // watermelon pinnaple apple orange
+	fmt.Println(n)   // 3
 
-	fmt.Println(fruits)       // ["apple", "watermelon", "pinnaple"]
-	fmt.Println(aFruits)      // ["watermelon", "pinnaple"]
-	fmt.Println(copiedElemen) // 1
+	// ---------------------
+
+	dst = []string{"potato", "potato", "potato"}
+	src = []string{"watermelon", "pinnaple"}
+	n = copy(dst, src)
+
+	fmt.Println(dst) // watermelon pinnaple potato
+	fmt.Println(src) // watermelon pinnaple
+	fmt.Println(n)   // 2
 }
