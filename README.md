@@ -62,6 +62,9 @@ Source Code Praktek [Dasar Pemrograman Golang](https://dasarpemrogramangolang.no
      * [A.55. Unit Test](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-55)
      * [A.56. WaitGroup](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-56)
      * [A.57. Mutex](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-57)
+     * [A.58. Go Vendoring](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.58-vendoring)
+     * [A.59. Dep - Go Dependency Management Tool](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.59-dep)
+     * [A.60. Go Modules](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.60-go-modules)
  * B. Programan Web Golang Dasar
      * [B.1. Golang Web App: Hello World](https://github.com/novalagung/pemrogramanwebgolang/tree/master/chapter-A.1-golang-web-hello-world)
      * [B.2. Routing http.HandleFunc](https://github.com/novalagung/pemrogramanwebgolang/tree/master/chapter-A.2-routing-http-handlefunc)
