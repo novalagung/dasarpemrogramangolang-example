@@ -1,0 +1,6 @@
+github.com/DefinitelyMod/gocsv v0.0.0-20181205141819-acfa5f112b45/go.mod h1:+nlrAh0au59iC1KN5RA1h1NdiOQYlNOBrbtE1Plqht4=
+github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/novalagung/gubrak v0.0.0-20181206013545-47ef89cffca4 h1:yDd/HFzYOKJiBE7sew7rxlQaqqrQWc4iMz52yEldaB8=
+github.com/novalagung/gubrak v0.0.0-20181206013545-47ef89cffca4/go.mod h1:lahTbjdK/OLI9Y4alRlf003XEwbiOj7ERkmDHFFbzLk=
+github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
