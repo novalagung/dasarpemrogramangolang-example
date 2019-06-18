@@ -10,10 +10,10 @@ Source Code Praktek [Dasar Pemrograman Golang](https://dasarpemrogramangolang.no
  	 * A.3. GOPATH Dan Workspace<span style="color: green">*</span>
  	 * A.4. Instalasi Editor<span style="color: green">*</span>
  	 * A.5. Command<span style="color: green">*</span>
-     * [A.6. Program Pertama: Hello World](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.6)
-     * [A.7. Komentar](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.7)
+     * [A.6. Program Pertama: Hello World](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.6-hello-world)
+     * [A.7. Komentar](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.7-komentar)
      * [A.8. Variabel](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.8)
-     * [A.9. Tipe Data](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.9)
+     * [A.9. Tipe Data](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.9-tipe-data)
      * [A.10. Konstanta](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.10)
      * [A.11. Operator](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.11)
      * [A.12. Seleksi Kondisi](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-A.12)
