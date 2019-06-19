@@ -120,6 +120,8 @@ Source Code Praktek [Dasar Pemrograman Golang](https://dasarpemrogramangolang.no
      * [C.30. gRPC + Protobuf](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-C.30-golang-grpc-protobuf)
      * [C.31. Context](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-C.31-golang-context)
      * [C.32. JSON Web Token (JWT)](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-C.32-golang-jwt)
+     * [C.33. LDAP Authentication](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-C.33-ldap-authentication)
+     * [C.34. SSO SAML (Service Provider)](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-C.34-sso-saml-sp)
 
 <span style="color: green">*</span> Tidak ada source code untuk bab tersebut
 
