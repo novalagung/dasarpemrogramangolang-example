@@ -1,36 +1,50 @@
 package main
 
-import "fmt"
-import "gopkg.in/mgo.v2"
-import "gopkg.in/mgo.v2/bson"
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"gopkg.in/mgo.v2/bson"
+)
+
+var ctx = func() context.Context {
+	c, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	return c
+}()
 
 type student struct {
 	Name  string `bson:"name"`
 	Grade int    `bson:"Grade"`
 }
 
-func connect() (*mgo.Session, error) {
-	var session, err = mgo.Dial("localhost")
+func connect() (*mongo.Database, error) {
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
 		return nil, err
 	}
-	return session, nil
+
+	err = client.Connect(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return client.Database("belajar_golang"), nil
 }
 
 func remove() {
-	var session, err = connect()
+	db, err := connect()
 	if err != nil {
-		fmt.Println("Error!", err.Error())
-		return
+		log.Fatal(err.Error())
 	}
-	defer session.Close()
-	var collection = session.DB("belajar_golang").C("student")
 
 	var selector = bson.M{"name": "John Wick"}
-	err = collection.Remove(selector)
+	_, err = db.Collection("student").DeleteOne(ctx, selector)
 	if err != nil {
-		fmt.Println("Error!", err.Error())
-		return
+		log.Fatal(err.Error())
 	}
 
 	fmt.Println("Remove success!")

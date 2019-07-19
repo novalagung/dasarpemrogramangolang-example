@@ -1,34 +1,53 @@
 package main
 
-import "fmt"
-import "gopkg.in/mgo.v2"
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+)
+
+var ctx = func() context.Context {
+	c, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	return c
+}()
 
 type student struct {
 	Name  string `bson:"name"`
 	Grade int    `bson:"Grade"`
 }
 
-func connect() (*mgo.Session, error) {
-	var session, err = mgo.Dial("localhost")
+func connect() (*mongo.Database, error) {
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
 		return nil, err
 	}
-	return session, nil
+
+	err = client.Connect(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return client.Database("belajar_golang"), nil
 }
 
 func insert() {
-	var session, err = connect()
+	db, err := connect()
 	if err != nil {
-		fmt.Println("Error!", err.Error())
-		return
+		log.Fatal(err.Error())
 	}
-	defer session.Close()
 
-	var collection = session.DB("belajar_golang").C("student")
-	err = collection.Insert(&student{"Wick", 2}, &student{"Ethan", 2})
+	_, err = db.Collection("student").InsertOne(ctx, student{"Wick", 2})
 	if err != nil {
-		fmt.Println("Error!", err.Error())
-		return
+		log.Fatal(err.Error())
+	}
+
+	_, err = db.Collection("student").InsertOne(ctx, student{"Ethan", 2})
+	if err != nil {
+		log.Fatal(err.Error())
 	}
 
 	fmt.Println("Insert success!")

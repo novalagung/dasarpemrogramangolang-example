@@ -27,7 +27,6 @@ type UserLDAPData struct {
 func AuthUsingLDAP(username, password string) (bool, *UserLDAPData, error) {
 
 	// making first contact
-
 	l, err := ldap.Dial("tcp", fmt.Sprintf("%s:%d", ldapServer, ldapPort))
 	if err != nil {
 		return false, nil, err
@@ -35,14 +34,12 @@ func AuthUsingLDAP(username, password string) (bool, *UserLDAPData, error) {
 	defer l.Close()
 
 	// bind using basedn
-
 	err = l.Bind(ldapBindDN, ldapPassword)
 	if err != nil {
 		return false, nil, err
 	}
 
 	// construct search query based on uid/username
-
 	searchRequest := ldap.NewSearchRequest(
 		ldapSearchDN,
 		ldap.ScopeWholeSubtree,
@@ -56,7 +53,6 @@ func AuthUsingLDAP(username, password string) (bool, *UserLDAPData, error) {
 	)
 
 	// perform the search, validate it's result
-
 	sr, err := l.Search(searchRequest)
 	if err != nil {
 		return false, nil, err
@@ -68,14 +64,12 @@ func AuthUsingLDAP(username, password string) (bool, *UserLDAPData, error) {
 	entry := sr.Entries[0]
 
 	// verify user password by binding to user dn (with user password)
-
 	err = l.Bind(entry.DN, password)
 	if err != nil {
 		return false, nil, err
 	}
 
 	// (optional) store data
-
 	data := new(UserLDAPData)
 	data.ID = username
 
