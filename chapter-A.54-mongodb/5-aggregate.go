@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -32,25 +34,51 @@ func connect() (*mongo.Database, error) {
 	return client.Database("belajar_golang"), nil
 }
 
-func insert() {
+func aggregate() {
 	db, err := connect()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	_, err = db.Collection("student").InsertOne(ctx, student{"Wick", 2})
+	pipeline := make([]bson.M, 0)
+	err = bson.UnmarshalExtJSON([]byte(strings.TrimSpace(`
+		[
+			{ "$group": {
+				"_id": null,
+				"Total": { "$sum": 1 }
+			} },
+			{ "$project": {
+				"Total": 1,
+				"_id": 0
+			} }
+		]
+	`)), true, &pipeline)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	_, err = db.Collection("student").InsertOne(ctx, student{"Ethan", 2})
+	csr, err := db.Collection("student").Aggregate(ctx, pipeline)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	defer csr.Close(ctx)
 
-	fmt.Println("Insert success!")
+	result := make([]bson.M, 0)
+	for csr.Next(ctx) {
+		var row bson.M
+		err := csr.Decode(&row)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		result = append(result, row)
+	}
+
+	if len(result) > 0 {
+		fmt.Println("Total :", result[0]["Total"])
+	}
 }
 
 func main() {
-	insert()
+	aggregate()
 }

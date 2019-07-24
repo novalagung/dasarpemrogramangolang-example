@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -12,8 +11,7 @@ import (
 )
 
 var ctx = func() context.Context {
-	c, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	return c
+	return context.Background()
 }()
 
 type student struct {
