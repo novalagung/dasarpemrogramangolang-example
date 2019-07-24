@@ -1,6 +1,6 @@
 # Dasar Pemrograman Golang
 
-Source Code Praktek [Dasar Pemrograman Golang](https://dasarpemrogramangolang.novalagung.com).
+Source Code Praktek [Dasar Pemrograman Golang](https://dasarpemrogramangolang.novalagung.com) untuk versi ebook **v2.2019.07.24.0**.
 
 ## Daftar Isi
 
