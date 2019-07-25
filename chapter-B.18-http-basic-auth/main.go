@@ -13,7 +13,6 @@ func OutputJSON(w http.ResponseWriter, o interface{}) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(res)
-	w.Write([]byte("\n"))
 }
 
 func ActionStudent(w http.ResponseWriter, r *http.Request) {

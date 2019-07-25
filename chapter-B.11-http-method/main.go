@@ -5,11 +5,12 @@ import "fmt"
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "POST" {
+		switch r.Method {
+		case "POST":
 			w.Write([]byte("post"))
-		} else if r.Method == "GET" {
+		case "GET":
 			w.Write([]byte("get"))
-		} else {
+		default:
 			http.Error(w, "", http.StatusBadRequest)
 		}
 	})
