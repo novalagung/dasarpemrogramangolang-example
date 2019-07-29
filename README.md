@@ -88,6 +88,7 @@ Source Code Praktek [Dasar Pemrograman Golang](https://dasarpemrogramangolang.no
      * [B.20. Custom Multiplexer](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-B.20-custom-mux-multiplexer)
      * [B.21. HTTP Cookie](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-B.21-cookie)
      * [B.22. Configuration File](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-B.22-configuration-file)
+     * [B.23. Handle Cancelled HTTP Request](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-B.23-handle-cancelled-http-request)
  * C. Pemrograman Web Golang Lanjut
      * [C.1. Echo Framework & Routing](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-C.1-echo-routing)
      * [C.2. Parsing HTTP Request Payload (Echo)](https://github.com/novalagung/dasarpemrogramangolang/tree/master/chapter-C.2-parsing-http-request-payload-echo)
