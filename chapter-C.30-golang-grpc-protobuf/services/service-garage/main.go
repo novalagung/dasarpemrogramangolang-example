@@ -5,10 +5,11 @@ import (
 	"log"
 	"net"
 
+	"chapter-c30/common/config"
+	"chapter-c30/common/model"
+
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
-	"pemrogramanwebgolang/chapter-B.30/common/config"
-	"pemrogramanwebgolang/chapter-B.30/common/model"
 )
 
 var localStorage *model.GarageListByUser

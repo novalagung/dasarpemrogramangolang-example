@@ -6,10 +6,11 @@ import (
 	"fmt"
 	"log"
 
+	"chapter-c30/common/config"
+	"chapter-c30/common/model"
+
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
-	"pemrogramanwebgolang/chapter-B.30/common/config"
-	"pemrogramanwebgolang/chapter-B.30/common/model"
 )
 
 func serviceGarage() model.GaragesClient {
