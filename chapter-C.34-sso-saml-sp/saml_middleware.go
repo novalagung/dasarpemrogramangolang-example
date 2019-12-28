@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"crypto/rsa"
 	"crypto/tls"
 	"crypto/x509"
+	"net/http"
 	"net/url"
 
 	"github.com/crewjam/saml/samlsp"
@@ -23,6 +25,11 @@ func newSamlMiddleware() (*samlsp.Middleware, error) {
 	if err != nil {
 		return nil, err
 	}
+	idpMetadata, err := samlsp.FetchMetadata(context.Background(), http.DefaultClient,
+		*idpMetadataURL)
+	if err != nil {
+		return nil, err
+	}
 
 	rootURL, err := url.Parse(webserverRootURL)
 	if err != nil {
@@ -30,10 +37,10 @@ func newSamlMiddleware() (*samlsp.Middleware, error) {
 	}
 
 	sp, err := samlsp.New(samlsp.Options{
-		URL:            *rootURL,
-		Key:            keyPair.PrivateKey.(*rsa.PrivateKey),
-		Certificate:    keyPair.Leaf,
-		IDPMetadataURL: idpMetadataURL,
+		URL:         *rootURL,
+		Key:         keyPair.PrivateKey.(*rsa.PrivateKey),
+		Certificate: keyPair.Leaf,
+		IDPMetadata: idpMetadata,
 	})
 	if err != nil {
 		return nil, err

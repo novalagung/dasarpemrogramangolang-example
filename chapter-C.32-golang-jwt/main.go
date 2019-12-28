@@ -104,9 +104,9 @@ func authenticateUser(username, password string) (bool, M) {
 		return false, nil
 	}
 
-	res, _ := gubrak.Find(data, func(each M) bool {
+	res := gubrak.From(data).Find(func(each M) bool {
 		return each["username"] == username && each["password"] == password
-	})
+	}).Result()
 
 	if res != nil {
 		resM := res.(M)

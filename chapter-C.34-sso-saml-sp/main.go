@@ -8,18 +8,12 @@ import (
 	"github.com/crewjam/saml/samlsp"
 )
 
-var (
-	samlCertificatePath = "./myservice.cert"
-	samlPrivateKeyPath  = "./myservice.key"
-	samlIDPMetadata     = "https://samltest.id/saml/idp"
-
-	webserverPort    = 9000
-	webserverRootURL = fmt.Sprintf("http://localhost:%d", webserverPort)
-)
-
-func hello(w http.ResponseWriter, r *http.Request) {
-	name := samlsp.Token(r.Context()).Attributes.Get("displayName")
-	fmt.Fprintf(w, "Hello, %s!", name)
+func landingHandler(w http.ResponseWriter, r *http.Request) {
+	name := samlsp.AttributeFromContext(r.Context(), "displayName")
+	w.Write([]byte(fmt.Sprintf("Welcome, %s!", name)))
+}
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Hello!"))
 }
 
 func main() {
@@ -27,12 +21,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-
-	http.Handle("/", sp.RequireAccount(
-		http.HandlerFunc(hello),
-	))
-
 	http.Handle("/saml/", sp)
+
+	http.Handle("/index", sp.RequireAccount(
+		http.HandlerFunc(landingHandler),
+	))
+	http.Handle("/hello", sp.RequireAccount(
+		http.HandlerFunc(helloHandler),
+	))
 
 	portString := fmt.Sprintf(":%d", webserverPort)
 	fmt.Println("server started at", portString)
