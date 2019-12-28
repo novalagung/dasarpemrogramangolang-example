@@ -90,9 +90,9 @@ func handleIO(currentConn *WebSocketConnection, connections []*WebSocketConnecti
 }
 
 func ejectConnection(currentConn *WebSocketConnection) {
-	filtered, _ := gubrak.Reject(connections, func(each *WebSocketConnection) bool {
+	filtered := gubrak.From(connections).Reject(func(each *WebSocketConnection) bool {
 		return each == currentConn
-	})
+	}).Result()
 	connections = filtered.([]*WebSocketConnection)
 }
 
