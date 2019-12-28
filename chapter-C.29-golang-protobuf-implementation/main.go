@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"os"
 
+	"chapter-c29/model"
+
 	"github.com/golang/protobuf/jsonpb"
-	"pemrogramanwebgolang/chapter-B.29/model"
 )
 
 var user1 = &model.User{
