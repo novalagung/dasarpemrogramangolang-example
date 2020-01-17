@@ -6,6 +6,7 @@ type Person struct {
 	name string `tag1`
 	age  int    `tag2`
 }
+
 type People = Person
 
 func main() {
