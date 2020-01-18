@@ -7,7 +7,7 @@ type People1 struct {
 	age int
 }
 
-type People2 struct {
+type People2 = struct {
 	name string
 	age int
 }
