@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/gorilla/websocket"
-	"github.com/novalagung/gubrak"
+	gubrak "github.com/novalagung/gubrak/v2"
 )
 
 type M map[string]interface{}

@@ -12,7 +12,7 @@ import (
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/novalagung/gubrak"
+	gubrak "github.com/novalagung/gubrak/v2"
 )
 
 type M map[string]interface{}
