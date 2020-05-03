@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/labstack/echo"
-	"gopkg.in/go-playground/validator.v9"
 	"net/http"
+
+	"github.com/go-playground/validator/v10"
+	"github.com/labstack/echo"
 )
 
 type User struct {

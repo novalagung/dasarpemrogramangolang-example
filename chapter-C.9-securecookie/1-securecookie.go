@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/gorilla/securecookie"
-	"github.com/labstack/echo"
-	"github.com/novalagung/gubrak"
 	"net/http"
 	"time"
+
+	"github.com/gorilla/securecookie"
+	"github.com/labstack/echo"
+	gubrak "github.com/novalagung/gubrak/v2"
 )
 
 type M map[string]interface{}

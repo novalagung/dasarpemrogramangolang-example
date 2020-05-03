@@ -1,8 +1,9 @@
 package main
 
 import (
-	"gopkg.in/gomail.v2"
 	"log"
+
+	"gopkg.in/gomail.v2"
 )
 
 const CONFIG_SMTP_HOST = "smtp.gmail.com"
