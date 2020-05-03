@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"dasarpemrogramangolang/chapter-B.22-configuration-file/conf"
+	"chapter-B.22-configuration-file/conf"
 )
 
 type CustomMux struct {

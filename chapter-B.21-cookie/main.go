@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/novalagung/gubrak"
 	"net/http"
 	"time"
+
+	"github.com/novalagung/gubrak/v2"
 )
 
 type M map[string]interface{}
