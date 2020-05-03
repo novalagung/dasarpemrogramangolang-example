@@ -6,22 +6,9 @@ import (
 	"reflect"
 )
 
-func valueOf(o interface{}) reflect.Value {
-	return reflect.ValueOf(o)
-}
-
-func typeOf(o interface{}) reflect.Type {
-	return reflect.TypeOf(o)
-}
-
 func inspectFunc(err *error, data interface{}) (reflect.Value, reflect.Type) {
 	var dataValue reflect.Value
 	var dataValueType reflect.Type
-
-	if data == nil {
-		*err = errors.New("callback should be function")
-		return dataValue, dataValueType
-	}
 
 	dataValue = reflect.ValueOf(data)
 
@@ -53,7 +40,7 @@ func inspectData(data interface{}) (reflect.Value, reflect.Type, reflect.Kind, i
 			dataValue = dataValue.Elem()
 		}
 
-		if dataValueKind == reflect.Slice {
+		if dataValueKind == reflect.Slice || dataValueKind == reflect.Array {
 			dataValueLen = dataValue.Len()
 		} else if dataValueKind == reflect.Map {
 			dataValueLen = len(dataValue.MapKeys())
@@ -61,10 +48,6 @@ func inspectData(data interface{}) (reflect.Value, reflect.Type, reflect.Kind, i
 	}
 
 	return dataValue, dataValueType, dataValueKind, dataValueLen
-}
-
-func isZeroOfUnderlyingType(x interface{}) bool {
-	return reflect.DeepEqual(x, reflect.Zero(reflect.TypeOf(x)).Interface())
 }
 
 func makeSlice(valueType reflect.Type, args ...int) reflect.Value {
@@ -77,6 +60,13 @@ func makeSlice(valueType reflect.Type, args ...int) reflect.Value {
 		if len(args) > 1 {
 			sliceCap = args[1]
 		}
+	}
+
+	if valueType.Kind() == reflect.Array {
+		sliceUnaddresable := reflect.MakeSlice(reflect.SliceOf(valueType.Elem()), 0, 0)
+		sliceAddressable := reflect.New(sliceUnaddresable.Type())
+		sliceAddressable.Elem().Set(sliceUnaddresable)
+		return sliceAddressable.Elem()
 	}
 
 	return reflect.MakeSlice(valueType, sliceLen, sliceCap)
@@ -244,18 +234,18 @@ func isSlice(err *error, label string, dataValue ...reflect.Value) bool {
 		return false
 
 	} else if len(dataValue) == 1 {
-		if dataValue[0].Kind() == reflect.Slice {
+		if dataValue[0].Kind() == reflect.Slice || dataValue[0].Kind() == reflect.Array {
 			return true
 		}
 
 		*err = fmt.Errorf("%s must be slice", label)
 		return false
 	} else {
-		res := dataValue[0].Kind() == reflect.Slice
+		res := dataValue[0].Kind() == reflect.Slice || dataValue[0].Kind() == reflect.Array
 
 		for i, each := range dataValue {
 			if i > 0 {
-				res = res || (each.Kind() == reflect.Slice)
+				res = res || (each.Kind() == reflect.Slice) || (each.Kind() == reflect.Array)
 			}
 		}
 
@@ -267,6 +257,16 @@ func isNonNilData(err *error, label string, data interface{}) bool {
 	if data == nil {
 		*err = fmt.Errorf("%s cannot be nil", label)
 		return false
+	}
+
+	valueOfData := reflect.ValueOf(data)
+
+	switch valueOfData.Kind() {
+	case reflect.Chan, reflect.Func, reflect.Interface, reflect.Map, reflect.Ptr, reflect.Slice, reflect.UnsafePointer, reflect.Struct:
+		if valueOfData.IsNil() {
+			*err = fmt.Errorf("%s cannot be nil", label)
+			return false
+		}
 	}
 
 	return true
@@ -306,7 +306,7 @@ func isLeftShouldBeGreaterOrEqualThanRight(err *error, labelLeft string, valueLe
 
 func isTypeEqual(err *error, labelLeft string, typeLeft reflect.Type, labelRight string, typeRight reflect.Type) bool {
 	if typeLeft != typeRight {
-		*err = fmt.Errorf("data type of %s should be same with %s", labelLeft, labelRight)
+		*err = fmt.Errorf("type of %s should be same with type of %s", labelLeft, labelRight)
 		return false
 	}
 

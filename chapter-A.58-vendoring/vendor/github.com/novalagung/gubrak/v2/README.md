@@ -1,65 +1,50 @@
-# GUBRAK
+# Gubrak v2
 
-Golang utility library with syntactic sugar. It's like lodash, but for golang.
+Golang utility library with syntactic sugar. It's like lodash, but for Go Programming Language.
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/novalagung/gubrak?nocache=1)](https://goreportcard.com/report/github.com/novalagung/gubrak?nocache=1)
 [![Build Status](https://travis-ci.org/novalagung/gubrak.svg?branch=master)](https://travis-ci.org/novalagung/gubrak)
 [![Coverage Status](https://coveralls.io/repos/github/novalagung/gubrak/badge.svg?branch=master)](https://coveralls.io/github/novalagung/gubrak?branch=master)
 
-Gubrak is yet another utility library for Golang, inspired from lodash. Currently we have around 73 reusable functions available, we'll definitely adding more!
-
 ## Installation
 
-```go
-go get -u github.com/novalagung/gubrak
-```
+The latest version of gubrak is v2. Here are the available method to get this library.
+
+- Using `go get` from github, for `$GOPATH`-based project:
+
+    ```bash
+    go get -u github.com/novalagung/gubrak
+    ```
+
+- Using `go get` from github, for **Go Mod**-based project:
+
+    ```bash
+    go get -u github.com/novalagung/gubrak/v2
+    ```
+
+## Usage
+
+Since this library is developed as go module, the versioning system used is the one from Go.
+
+- For `$GOPATH`-based project:
+
+    ```go
+    import "github.com/novalagung/gubrak"
+    ```
+
+- For **Go Mod**-based project:
+
+    ```go
+    import gubrak "github.com/novalagung/gubrak/v2"
+    ```
 
 ## Documentation
 
- - [API Documentation](https://gubrak.github.io/) (always updated)
- - [Godoc](https://godoc.org/github.com/novalagung/gubrak) (update delayed)
+ - [Godoc](https://godoc.org/github.com/novalagung/gubrak)
 
 ## Hello World Example
 
-```go
-package main
-
-import (
-    "github.com/novalagung/gubrak"
-    "fmt"
-)
-
-type Sample struct {
-    EbookName      string
-    DailyDownloads int
-}
-
-func main() {
-    data := []Sample{
-        { EbookName: "clean code", DailyDownloads: 10000 },
-        { EbookName: "rework", DailyDownloads: 12000 },
-        { EbookName: "detective comics", DailyDownloads: 11500 },
-    }
-
-    result, err := gubrak.Filter(data, func(each Sample) bool {
-        return each.DailyDownloads > 11000
-    })
-
-    if err != nil {
-        fmt.Println("Error!", err.Error)
-        return
-    }
-
-    fmt.Printf("%#v \n", result.([]Sample))
-
-    /*
-    []Sample{
-        { EbookName: "rework", DailyDownloads: 12000 },
-        { EbookName: "detective comics", DailyDownloads: 11500 },
-    }
-    */
-}
-```
+![Lodash for Golang](https://i.imgur.com/bvT1gVM.jpg)
 
 ## APIs
 
@@ -70,8 +55,6 @@ Below are the list of available functions on gubrak:
 ## Test
 
 ```bash
-go get -u github.com/novalagung/gubrak
-dep ensure
 go test -cover -race -v ./... 
 ```
 
