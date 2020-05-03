@@ -1,1 +1,0 @@
-Cara menjalankan sampel program chapter 24, pindah folder `belajar-golang-level-akses` ke `$GOPATH/src`, lalu jalankan.

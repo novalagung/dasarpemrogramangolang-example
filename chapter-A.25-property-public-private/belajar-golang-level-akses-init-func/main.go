@@ -1,7 +1,9 @@
 package main
 
-import "belajar-golang-level-akses/library"
-import "fmt"
+import (
+	"belajar-golang-level-akses-init-func/library"
+	"fmt"
+)
 
 func main() {
 	fmt.Printf("Name  : %s\n", library.Student.Name)
