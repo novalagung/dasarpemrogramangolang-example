@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
+
 	"github.com/labstack/echo"
 	"github.com/spf13/viper"
-	"net/http"
 )
 
 func main() {
@@ -19,11 +19,10 @@ func main() {
 		e.Logger.Fatal(err)
 	}
 
-	fmt.Println("Starting", viper.GetString("appName"))
-
 	e.GET("/index", func(c echo.Context) (err error) {
 		return c.JSON(http.StatusOK, true)
 	})
 
+	e.Logger.Print("Starting", viper.GetString("appName"))
 	e.Logger.Fatal(e.Start(":" + viper.GetString("server.port")))
 }
