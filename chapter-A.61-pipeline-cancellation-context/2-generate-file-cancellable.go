@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"os"
 	"path/filepath"
 	"sync"
 	"time"
-
-	"github.com/novalagung/gubrak"
 )
 
 const totalFile = 3000
@@ -18,7 +17,11 @@ const contentLength = 5000
 const totalWorker = 10
 const timeoutDuration = 3 * time.Second
 
-var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.59-pipeline-temp")
+var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.61-pipeline-cancellation-context")
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
 
 func main() {
 	log.Println("start")
@@ -33,6 +36,17 @@ func main() {
 
 	duration := time.Since(start)
 	log.Println("done in", duration.Seconds(), "seconds")
+}
+
+func randomString(length int) string {
+	letters := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+	b := make([]rune, length)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+
+	return string(b)
 }
 
 func generate(ctx context.Context) {
@@ -68,7 +82,7 @@ func startWorker(wg *sync.WaitGroup, jobs <-chan int, workerNumber int) {
 
 	for jobNumber := range jobs {
 		filename := filepath.Join(tempPath, fmt.Sprintf("file-%d.txt", jobNumber))
-		content := gubrak.RandomString(contentLength)
+		content := randomString(contentLength)
 		err := ioutil.WriteFile(filename, []byte(content), os.ModePerm)
 		if err != nil {
 			log.Println("Error writing file", filename)

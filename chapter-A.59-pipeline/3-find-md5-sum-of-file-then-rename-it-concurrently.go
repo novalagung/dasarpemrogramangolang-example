@@ -33,7 +33,7 @@ func main() {
 	chanFileSum3 := getSum(chanFileContent)
 	chanFileSum := mergeChanFileInfo(chanFileSum1, chanFileSum2, chanFileSum3)
 
-	// pipeline 3: rename old files
+	// pipeline 3: rename files
 	chanRename1 := rename(chanFileSum)
 	chanRename2 := rename(chanFileSum)
 	chanRename3 := rename(chanFileSum)
