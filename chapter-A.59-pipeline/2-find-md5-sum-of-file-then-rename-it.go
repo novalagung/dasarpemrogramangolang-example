@@ -26,9 +26,13 @@ func proceed() {
 	counterTotal := 0
 	counterRenamed := 0
 	err := filepath.Walk(tempPath, func(path string, info os.FileInfo, err error) error {
+
+		// if there is an error, return immediatelly
 		if err != nil {
 			return err
 		}
+
+		// if it is a sub directory, return immediatelly
 		if info.IsDir() {
 			return nil
 		}

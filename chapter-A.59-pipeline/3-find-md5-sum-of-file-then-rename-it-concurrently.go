@@ -14,10 +14,10 @@ import (
 var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.59-pipeline-temp")
 
 type FileInfo struct {
-	FilePath  string
-	Content   []byte
-	Sum       string
-	IsRenamed bool
+	FilePath  string // file location
+	Content   []byte // file content
+	Sum       string // md5 sum of content
+	IsRenamed bool   // indicator whether the particular file is renamed already or not
 }
 
 func main() {
@@ -37,7 +37,8 @@ func main() {
 	chanRename1 := rename(chanFileSum)
 	chanRename2 := rename(chanFileSum)
 	chanRename3 := rename(chanFileSum)
-	chanRename := mergeChanFileInfo(chanRename1, chanRename2, chanRename3)
+	chanRename4 := rename(chanFileSum)
+	chanRename := mergeChanFileInfo(chanRename1, chanRename2, chanRename3, chanRename4)
 
 	// print output
 	counterRenamed := 0
@@ -60,9 +61,13 @@ func readFiles() <-chan FileInfo {
 
 	go func() {
 		err := filepath.Walk(tempPath, func(path string, info os.FileInfo, err error) error {
+
+			// if there is an error, return immediatelly
 			if err != nil {
 				return err
 			}
+
+			// if it is a sub directory, return immediatelly
 			if info.IsDir() {
 				return nil
 			}

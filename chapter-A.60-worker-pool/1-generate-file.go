@@ -12,7 +12,7 @@ import (
 )
 
 const totalFile = 3000
-const randomStringLength = 5000
+const contentLength = 5000
 
 var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.59-pipeline-temp")
 
@@ -32,7 +32,7 @@ func generate() {
 
 	for i := 0; i < totalFile; i++ {
 		filename := filepath.Join(tempPath, fmt.Sprintf("file-%d.txt", i))
-		content := gubrak.RandomString(randomStringLength)
+		content := gubrak.RandomString(contentLength)
 		err := ioutil.WriteFile(filename, []byte(content), os.ModePerm)
 		if err != nil {
 			log.Println("Error writing file", filename)

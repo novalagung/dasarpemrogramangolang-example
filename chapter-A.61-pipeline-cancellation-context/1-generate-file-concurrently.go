@@ -13,7 +13,7 @@ import (
 )
 
 const totalFile = 3000
-const randomStringLength = 5000
+const contentLength = 5000
 const totalWorker = 10
 
 var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.59-pipeline-temp")
@@ -52,7 +52,7 @@ func startWorker(wg *sync.WaitGroup, jobs <-chan int, workerNumber int) {
 
 	for jobNumber := range jobs {
 		filename := filepath.Join(tempPath, fmt.Sprintf("file-%d.txt", jobNumber))
-		content := gubrak.RandomString(randomStringLength)
+		content := gubrak.RandomString(contentLength)
 		err := ioutil.WriteFile(filename, []byte(content), os.ModePerm)
 		if err != nil {
 			log.Println("Error writing file", filename)
