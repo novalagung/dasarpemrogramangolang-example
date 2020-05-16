@@ -13,9 +13,15 @@ import (
 
 const totalFile = 3000
 const contentLength = 5000
-const totalWorker = 10
 
 var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.61-pipeline-cancellation-context")
+
+type FileInfo struct {
+	Index       int
+	FileName    string
+	WorkerIndex int
+	Err         error
+}
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
@@ -46,52 +52,76 @@ func generateFiles() {
 	os.RemoveAll(tempPath)
 	os.MkdirAll(tempPath, os.ModePerm)
 
-	jobs := make(chan int)
+	// pipeline 1: job distribution
+	chanFileIndex := generateFileIndexes()
+
+	// pipeline 2: the main logic (creating files)
+	createFilesWorker := 100
+	chanFileResult := createFiles(chanFileIndex, createFilesWorker)
+
+	// track and print output
+	counterTotal := 0
+	counterSuccess := 0
+	for fileResult := range chanFileResult {
+		if fileResult.Err != nil {
+			log.Printf("error creating file %s. stack trace: %s", fileResult.FileName, fileResult.Err)
+		} else {
+			counterSuccess++
+		}
+		counterTotal++
+	}
+
+	log.Printf("%d/%d of total files created", counterSuccess, counterTotal)
+}
+
+func generateFileIndexes() <-chan FileInfo {
+	chanOut := make(chan FileInfo)
+
+	go func() {
+		for i := 0; i < totalFile; i++ {
+			chanOut <- FileInfo{
+				Index:    i,
+				FileName: fmt.Sprintf("file-%d.txt", i),
+			}
+		}
+		close(chanOut)
+	}()
+
+	return chanOut
+}
+
+func createFiles(chanIn <-chan FileInfo, numberOfWorkers int) <-chan FileInfo {
+	chanOut := make(chan FileInfo)
 
 	wg := new(sync.WaitGroup)
-	wg.Add(totalWorker)
+	wg.Add(numberOfWorkers)
 
-	go dispatchWorkers(wg, jobs)
-	go distributeJobs(jobs)
+	go func() {
+		for workerIndex := 0; workerIndex < numberOfWorkers; workerIndex++ {
+			go func(workerIndex int) {
+				for job := range chanIn {
+					filePath := filepath.Join(tempPath, job.FileName)
+					content := randomString(contentLength)
+					err := ioutil.WriteFile(filePath, []byte(content), os.ModePerm)
 
-	wg.Wait()
+					log.Println("worker", workerIndex, "working on", job.FileName, "file generation")
 
-	log.Printf("%d of total files created", totalFile)
-}
+					chanOut <- FileInfo{
+						FileName:    job.FileName,
+						WorkerIndex: workerIndex,
+						Err:         err,
+					}
+				}
 
-func startWorker(wg *sync.WaitGroup, jobs <-chan int, workerNumber int) {
-	log.Printf("worker-%d started", workerNumber)
-
-	i := 0
-
-	for jobNumber := range jobs {
-		filename := filepath.Join(tempPath, fmt.Sprintf("file-%d.txt", jobNumber))
-		content := randomString(contentLength)
-		err := ioutil.WriteFile(filename, []byte(content), os.ModePerm)
-		if err != nil {
-			log.Println("Error writing file", filename)
+				wg.Done()
+			}(workerIndex)
 		}
+	}()
 
-		if i > 0 && i%100 == 0 {
-			log.Printf(" -> worker-%d created %d files", workerNumber, i)
-		}
+	go func() {
+		wg.Wait()
+		close(chanOut)
+	}()
 
-		i++
-	}
-
-	log.Printf(" -> worker-%d done creating %d files", workerNumber, i)
-	wg.Done()
-}
-
-func dispatchWorkers(wg *sync.WaitGroup, jobs chan int) {
-	for i := 0; i < totalWorker; i++ {
-		go startWorker(wg, jobs, i)
-	}
-}
-
-func distributeJobs(jobs chan int) {
-	for i := 0; i < totalFile; i++ {
-		jobs <- i
-	}
-	close(jobs)
+	return chanOut
 }
