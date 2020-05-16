@@ -29,7 +29,7 @@ func main() {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	time.AfterFunc(timeoutDuration, cancel)
-	generate(ctx)
+	generateWithContext(ctx)
 
 	// ctx, _ := context.WithTimeout(context.Background(), timeoutDuration)
 	// generate(ctx)
@@ -49,7 +49,11 @@ func randomString(length int) string {
 	return string(b)
 }
 
-func generate(ctx context.Context) {
+func generate() {
+	generateWithContext(context.Background())
+}
+
+func generateWithContext(ctx context.Context) {
 	os.RemoveAll(tempPath)
 	os.MkdirAll(tempPath, os.ModePerm)
 
