@@ -33,13 +33,13 @@ func main() {
 	log.Println("start")
 	start := time.Now()
 
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithTimeout(context.Background(), timeoutDuration)
 	defer cancel()
-	time.AfterFunc(timeoutDuration, cancel)
 	generateFilesWithContext(ctx)
 
-	// ctx, cancel := context.WithTimeout(context.Background(), timeoutDuration)
+	// ctx, cancel := context.WithCancel(context.Background())
 	// defer cancel()
+	// time.AfterFunc(timeoutDuration, cancel)
 	// generateFilesWithContext(ctx)
 
 	duration := time.Since(start)
@@ -65,11 +65,11 @@ func generateFilesWithContext(ctx context.Context) {
 
 	go func() {
 		// pipeline 1: job distribution
-		chanFileIndex := generateFileIndexes()
+		chanFileIndex := generateFileIndexes(ctx)
 
 		// pipeline 2: the main logic (creating files)
 		createFilesWorker := 100
-		chanFileResult := createFiles(chanFileIndex, createFilesWorker)
+		chanFileResult := createFiles(ctx, chanFileIndex, createFilesWorker)
 
 		// track and print output
 		counterSuccess := 0
@@ -97,14 +97,19 @@ func generateFiles() {
 	generateFilesWithContext(context.Background())
 }
 
-func generateFileIndexes() <-chan FileInfo {
+func generateFileIndexes(ctx context.Context) <-chan FileInfo {
 	chanOut := make(chan FileInfo)
 
 	go func() {
 		for i := 0; i < totalFile; i++ {
-			chanOut <- FileInfo{
-				Index:    i,
-				FileName: fmt.Sprintf("file-%d.txt", i),
+			select {
+			case <-ctx.Done():
+				break
+			default:
+				chanOut <- FileInfo{
+					Index:    i,
+					FileName: fmt.Sprintf("file-%d.txt", i),
+				}
 			}
 		}
 		close(chanOut)
@@ -113,7 +118,7 @@ func generateFileIndexes() <-chan FileInfo {
 	return chanOut
 }
 
-func createFiles(chanIn <-chan FileInfo, numberOfWorkers int) <-chan FileInfo {
+func createFiles(ctx context.Context, chanIn <-chan FileInfo, numberOfWorkers int) <-chan FileInfo {
 	chanOut := make(chan FileInfo)
 
 	wg := new(sync.WaitGroup)
@@ -123,16 +128,21 @@ func createFiles(chanIn <-chan FileInfo, numberOfWorkers int) <-chan FileInfo {
 		for workerIndex := 0; workerIndex < numberOfWorkers; workerIndex++ {
 			go func(workerIndex int) {
 				for job := range chanIn {
-					filePath := filepath.Join(tempPath, job.FileName)
-					content := randomString(contentLength)
-					err := ioutil.WriteFile(filePath, []byte(content), os.ModePerm)
+					select {
+					case <-ctx.Done():
+						break
+					default:
+						filePath := filepath.Join(tempPath, job.FileName)
+						content := randomString(contentLength)
+						err := ioutil.WriteFile(filePath, []byte(content), os.ModePerm)
 
-					log.Println("worker", workerIndex, "working on", job.FileName, "file generation")
+						log.Println("worker", workerIndex, "working on", job.FileName, "file generation")
 
-					chanOut <- FileInfo{
-						FileName:    job.FileName,
-						WorkerIndex: workerIndex,
-						Err:         err,
+						chanOut <- FileInfo{
+							FileName:    job.FileName,
+							WorkerIndex: workerIndex,
+							Err:         err,
+						}
 					}
 				}
 
