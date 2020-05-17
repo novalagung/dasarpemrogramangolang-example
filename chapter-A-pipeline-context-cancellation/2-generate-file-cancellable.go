@@ -57,6 +57,10 @@ func randomString(length int) string {
 	return string(b)
 }
 
+func generateFiles() {
+	generateFilesWithContext(context.Background())
+}
+
 func generateFilesWithContext(ctx context.Context) {
 	os.RemoveAll(tempPath)
 	os.MkdirAll(tempPath, os.ModePerm)
@@ -91,10 +95,6 @@ func generateFilesWithContext(ctx context.Context) {
 	case counterSuccess := <-done:
 		log.Printf("%d/%d of total files created", counterSuccess, totalFile)
 	}
-}
-
-func generateFiles() {
-	generateFilesWithContext(context.Background())
 }
 
 func generateFileIndexes(ctx context.Context) <-chan FileInfo {
