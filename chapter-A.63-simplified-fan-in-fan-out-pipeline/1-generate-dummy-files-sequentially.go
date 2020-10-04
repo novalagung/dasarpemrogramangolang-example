@@ -13,7 +13,7 @@ import (
 const totalFile = 3000
 const contentLength = 5000
 
-var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.60-worker-pool")
+var tempPath = filepath.Join(os.Getenv("TEMP"), "temp-simplified-fan-in-fan-out")
 
 func init() {
 	rand.Seed(time.Now().UnixNano())

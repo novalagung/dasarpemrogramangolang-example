@@ -13,7 +13,7 @@ import (
 const totalFile = 3000
 const contentLength = 5000
 
-var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.59-pipeline-temp")
+var tempPath = filepath.Join(os.Getenv("TEMP"), "temp-concurrency-pipeline")
 
 func init() {
 	rand.Seed(time.Now().UnixNano())

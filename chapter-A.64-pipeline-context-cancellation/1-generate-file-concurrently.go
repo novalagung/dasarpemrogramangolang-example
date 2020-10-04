@@ -14,7 +14,7 @@ import (
 const totalFile = 3000
 const contentLength = 5000
 
-var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.60-worker-pool")
+var tempPath = filepath.Join(os.Getenv("TEMP"), "temp-pipeline-context-cancellation")
 
 type FileInfo struct {
 	Index       int

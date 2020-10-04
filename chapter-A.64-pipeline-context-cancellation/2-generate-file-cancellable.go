@@ -16,7 +16,7 @@ const totalFile = 3000
 const contentLength = 5000
 const timeoutDuration = 3 * time.Second
 
-var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.61-pipeline-cancellation-context")
+var tempPath = filepath.Join(os.Getenv("TEMP"), "temp-pipeline-context-cancellation")
 
 type FileInfo struct {
 	Index       int

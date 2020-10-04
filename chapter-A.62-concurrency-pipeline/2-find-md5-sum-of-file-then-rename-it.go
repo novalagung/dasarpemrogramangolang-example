@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.59-pipeline-temp")
+var tempPath = filepath.Join(os.Getenv("TEMP"), "temp-concurrency-pipeline")
 
 func main() {
 	log.Println("start")

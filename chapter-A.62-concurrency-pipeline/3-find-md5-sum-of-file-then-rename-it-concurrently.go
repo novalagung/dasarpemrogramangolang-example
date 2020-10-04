@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.59-pipeline-temp")
+var tempPath = filepath.Join(os.Getenv("TEMP"), "temp-concurrency-pipeline")
 
 type FileInfo struct {
 	FilePath  string // file location
