@@ -74,16 +74,9 @@ func handleIO(currentConn *WebSocketConnection) {
 
 		siblingConnections := manager.GetSiblingConnections(currentConn)
 		for _, each := range siblingConnections {
-			send(currentConn, each, payload)
+			payload["from"] = currentConn.UserID
+			payload["room"] = each.RoomID
+			each.WriteJSON(payload)
 		}
 	}
-}
-
-func send(from, to *WebSocketConnection, data M) {
-	if from != nil {
-		data["from"] = from.UserID
-	}
-
-	data["room"] = to.RoomID
-	to.WriteJSON(data)
 }

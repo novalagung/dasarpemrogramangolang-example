@@ -10,7 +10,7 @@
       }
       .block {
         display: inline-block;
-        width: 49%;
+        width: 20%;
       }
       .block video {
         display: block;
@@ -68,7 +68,10 @@
           var data = JSON.parse(message.data)
           
           if (data.type === 'signal') {
+            document.querySelector('#remoteUserName').innerHTML = data.from
+
             if (!peerConnection) {
+              setupPeerConnection(false, stream)
               return
             }
           
@@ -97,12 +100,13 @@
         var constraint = { video: true, audio: true };
         navigator.mediaDevices.getUserMedia(constraint).then((stream) => {
           document.querySelector('#localVideo').srcObject = stream;
-          setupPeerConnection(stream)
+          setupPeerConnection(true, stream)
         }).catch(errorHandler)
       }
 
-      var setupPeerConnection = function (stream) {
-        peerConnection = new RTCPeerConnection({ 'iceServers': peerIceServers });
+      var setupPeerConnection = function (isCaller, stream) {
+        var rctPeerConfig = { 'iceServers': peerIceServers, 'optional': [{ 'DtlsSrtpKeyAgreement': true }] }
+        peerConnection = new RTCPeerConnection(rctPeerConfig);
         peerConnection.onicecandidate = function (event) {
           if (!event.candidate) {
             return;
@@ -114,7 +118,7 @@
           }));
         };
         peerConnection.ontrack = function (event) {
-          document.querySelector('#remoteVideo').srcObject = event.streams[0];
+          document.querySelector('#remoteVideo').srcObject = event.streams[0]
         };
         peerConnection.addStream(stream);
         peerConnection.createOffer().then(createdDescription).catch(errorHandler);
