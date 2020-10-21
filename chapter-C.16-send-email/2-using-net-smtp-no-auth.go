@@ -10,8 +10,6 @@ import (
 const CONFIG_SMTP_HOST = "smtp.gmail.com"
 const CONFIG_SMTP_PORT = 587
 const CONFIG_SENDER_NAME = "PT. Makmur Subur Jaya <emailanda@gmail.com>"
-const CONFIG_AUTH_EMAIL = "emailanda@gmail.com"
-const CONFIG_AUTH_PASSWORD = "passwordemailanda"
 
 func sendMail(to []string, cc []string, subject, message string) error {
 	body := "From: " + CONFIG_SENDER_NAME + "\n" +
@@ -20,10 +18,32 @@ func sendMail(to []string, cc []string, subject, message string) error {
 		"Subject: " + subject + "\n\n" +
 		message
 
-	auth := smtp.PlainAuth("", CONFIG_AUTH_EMAIL, CONFIG_AUTH_PASSWORD, CONFIG_SMTP_HOST)
 	smtpAddr := fmt.Sprintf("%s:%d", CONFIG_SMTP_HOST, CONFIG_SMTP_PORT)
+	c, err := smtp.Dial(smtpAddr)
+	if c != nil {
+		defer c.Quit()
+	}
+	if err != nil {
+		return err
+	}
+	defer c.Close()
 
-	err := smtp.SendMail(smtpAddr, auth, CONFIG_AUTH_EMAIL, append(to, cc...), []byte(body))
+	err = c.Mail(CONFIG_SENDER_NAME)
+	if err != nil {
+		return err
+	}
+
+	w, err := c.Data()
+	if err != nil {
+		return err
+	}
+
+	_, err = w.Write([]byte(body))
+	if err != nil {
+		return err
+	}
+
+	err = w.Close()
 	if err != nil {
 		return err
 	}
