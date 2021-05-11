@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  </head>
+
+  <body>
+    <video id="localVideo" autoplay muted style="width:40%;"></video>
+    <video id="remoteVideo" autoplay style="width:40%;"></video>
+
+    <br />
+
+    <input type="button" id="start" onclick="start(true)" value="Start Video"></input>
+
+    <script type="text/javascript">
+      var localVideo;
+      var localStream;
+      var remoteVideo;
+      var peerConnection;
+      var uuid;
+      var wsConnection;
+
+      var peerConnectionConfig = {
+        'iceServers': [
+          {'urls': 'stun:stun.stunprotocol.org:3478'},
+          {'urls': 'stun:stun.l.google.com:19302'},
+        ]
+      };
+
+      function pageReady() {
+        uuid = uuidv4();
+
+        localVideo = document.getElementById('localVideo');
+        remoteVideo = document.getElementById('remoteVideo');
+
+        var user = prompt('Enter your name', '')
+        wsConnection = new WebSocket('wss://' + window.location.host + '/ws?user=' + user);
+        wsConnection.onmessage = function (message) {
+          if(!peerConnection) start(false);
+
+          var signal = JSON.parse(message.data);
+
+          // Ignore messages from ourself
+          if(signal.uuid == uuid) return;
+
+          if(signal.sdp) {
+            peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(function() {
+              // Only create answers in response to offers
+              if(signal.sdp.type == 'offer') {
+                peerConnection.createAnswer().then(createdDescription).catch(errorHandler);
+              }
+            }).catch(errorHandler);
+          } else if(signal.ice) {
+            peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice)).catch(errorHandler);
+          }
+        };
+
+        var constraints = {
+          video: true,
+          audio: true,
+        };
+
+        if(navigator.mediaDevices.getUserMedia) {
+          navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+            localStream = stream;
+            localVideo.srcObject = stream;
+          }).catch(errorHandler);
+        } else {
+          alert('Your browser does not support getUserMedia API');
+        }
+      }
+
+      function start(isCaller) {
+        peerConnection = new RTCPeerConnection(peerConnectionConfig);
+        peerConnection.onicecandidate = function (event) {
+          if(event.candidate != null) {
+            wsConnection.send(JSON.stringify({'ice': event.candidate, 'uuid': uuid}));
+          }
+        };
+        peerConnection.ontrack = function (event) {
+          console.log('got remote stream');
+          remoteVideo.srcObject = event.streams[0];
+        };
+        peerConnection.addStream(localStream);
+
+        if(isCaller) {
+          peerConnection.createOffer().then(createdDescription).catch(errorHandler);
+        }
+      }
+
+      function createdDescription(description) {
+        console.log('got description');
+
+        peerConnection.setLocalDescription(description).then(function() {
+          wsConnection.send(JSON.stringify({'sdp': peerConnection.localDescription, 'uuid': uuid}));
+        }).catch(errorHandler);
+      }
+
+      function errorHandler(error) {
+        console.log(error);
+      }
+
+      window.onload = pageReady;
+    </script>
+  </body>
+</html>

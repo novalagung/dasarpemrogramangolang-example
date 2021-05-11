@@ -72,6 +72,8 @@ func handleIO(currentConn *WebSocketConnection) {
 			continue
 		}
 
+		log.Println("==============", payload)
+
 		siblingConnections := manager.GetSiblingConnections(currentConn)
 		for _, each := range siblingConnections {
 			payload["from"] = currentConn.UserID

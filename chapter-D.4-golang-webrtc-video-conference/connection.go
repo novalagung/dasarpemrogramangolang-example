@@ -41,6 +41,7 @@ func (m *WebSocketManager) AppendConnection(conn *WebSocketConnection) {
 	if _, isConnectionExists := room.Connections[conn.UserID]; !isConnectionExists {
 		room.Connections[conn.UserID] = conn
 	}
+
 }
 
 func (m *WebSocketManager) EjectConnection(conn *WebSocketConnection) {
@@ -66,9 +67,9 @@ func (m *WebSocketManager) GetSiblingConnections(conn *WebSocketConnection) []*W
 	}
 
 	for _, each := range m.Rooms[conn.RoomID].Connections {
-		if each.UserID == conn.UserID {
-			continue
-		}
+		// if each.UserID == conn.UserID {
+		// 	continue
+		// }
 		connections = append(connections, each)
 	}
 
