@@ -40,7 +40,7 @@ func HandlerDownloadReport(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// open the file, download it
-	f, err := os.Open(path)
+	f, err := os.OpenFile(path, os.O_RDONLY, 0644)
 	if f != nil {
 		defer f.Close()
 	}
@@ -56,8 +56,6 @@ func HandlerDownloadReport(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	http.Error(w, "", http.StatusBadRequest)
 }
 
 func main() {
