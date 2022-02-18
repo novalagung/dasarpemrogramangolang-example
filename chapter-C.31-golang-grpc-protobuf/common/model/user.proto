@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package model;
+option go_package = "./common/model";
 
 enum UserGender {
     UNDEFINED = 0;
