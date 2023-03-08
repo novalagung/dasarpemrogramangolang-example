@@ -1,14 +1,18 @@
 package main
 
-import "fmt"
-import "math/rand"
-import "runtime"
-import "time"
+import (
+	"fmt"
+	"math/rand"
+	"runtime"
+	"time"
+)
 
 func sendData(ch chan<- int) {
+	randomizer := rand.New(rand.NewSource(time.Now().Unix()))
+
 	for i := 0; true; i++ {
 		ch <- i
-		time.Sleep(time.Duration(rand.Int()%10+1) * time.Second)
+		time.Sleep(time.Duration(randomizer.Int()%10+1) * time.Second)
 	}
 }
 
@@ -26,7 +30,6 @@ loop:
 }
 
 func main() {
-	rand.Seed(time.Now().Unix())
 	runtime.GOMAXPROCS(2)
 
 	var messages = make(chan int)
