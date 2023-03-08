@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	rand.Seed(time.Now().UTC().UnixNano())
-	fmt.Println("random ke-1:", rand.Int())
-	fmt.Println("random ke-2:", rand.Int())
-	fmt.Println("random ke-3:", rand.Int())
+	randomizer := rand.New(rand.NewSource(time.Now().UTC().UnixNano()))
+	fmt.Println("random ke-1:", randomizer.Int())
+	fmt.Println("random ke-2:", randomizer.Int())
+	fmt.Println("random ke-3:", randomizer.Int())
 }
