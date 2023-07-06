@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -19,10 +18,14 @@ const (
 	AWS_REGION            string = "ap-southeast-1"
 )
 
-func newS3Session() (*session.Session, error) {
+func newSession() (*session.Session, error) {
 	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String(AWS_REGION),
-		Credentials: credentials.NewStaticCredentials(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, ""),
+		Region: aws.String(AWS_REGION),
+		Credentials: credentials.NewStaticCredentials(
+			AWS_ACCESS_KEY_ID,
+			AWS_SECRET_ACCESS_KEY,
+			"",
+		),
 	})
 
 	if err != nil {
@@ -33,18 +36,18 @@ func newS3Session() (*session.Session, error) {
 }
 
 func main() {
-	s3Session, err := newS3Session()
+	sess, err := newSession()
 	if err != nil {
 		fmt.Println("Failed to create AWS session:", err)
 		return
 	}
 
-	s3Client := s3.New(s3Session)
+	s3Client := s3.New(sess)
+	fmt.Println("S3 session & client initialized")
 
 	bucketName := "adamstudio-new-bucket"
-	fileName := "adamstudio.jpg"
 
-	// --- create bucket
+	// =============== create bucket ===============
 	err = createBucket(s3Client, bucketName)
 	if err != nil {
 		fmt.Printf("Couldn't create new bucket: %v", err)
@@ -53,7 +56,7 @@ func main() {
 
 	fmt.Println("New bucket successfully created")
 
-	// --- list all buckets
+	// =============== list all buckets ===============
 	buckets, err := listBuckets(s3Client)
 	if err != nil {
 		fmt.Printf("Couldn't list buckets: %v", err)
@@ -64,8 +67,10 @@ func main() {
 		fmt.Printf("Found bucket: %s, created at: %s\n", *bucket.Name, *bucket.CreationDate)
 	}
 
-	// --- upload file
-	uploader := s3manager.NewUploader(s3Session)
+	// =============== upload file ===============
+	uploader := s3manager.NewUploader(sess)
+
+	fileName := "adamstudio.jpg"
 	filePath := filepath.Join("upload", fileName)
 
 	err = uploadFile(uploader, filePath, bucketName, fileName)
@@ -75,8 +80,22 @@ func main() {
 
 	fmt.Println("Successfully uploaded file!")
 
-	// --- download file
-	downloader := s3manager.NewDownloader(s3Session)
+	// =============== list objects ===============
+	// bucketName := "adamstudio-new-bucket"
+	objects, err := listObjects(s3Client, bucketName)
+	if err != nil {
+		fmt.Printf("Couldn't list objects: %v", err)
+		return
+	}
+
+	for _, object := range objects.Contents {
+		fmt.Printf("Found object: %s, size: %d\n", *object.Key, *object.Size)
+	}
+
+	// =============== download file ===============
+	downloader := s3manager.NewDownloader(sess)
+	// fileName := "adamstudio.jpg"
+	// bucketName := "adamstudio-new-bucket"
 	err = downloadFile(downloader, bucketName, fileName)
 
 	if err != nil {
@@ -86,7 +105,9 @@ func main() {
 
 	fmt.Println("Successfully downloaded file")
 
-	// --- delete file
+	// =============== delete file ===============
+	// fileName := "adamstudio.jpg"
+	// bucketName := "adamstudio-new-bucket"
 	err = deleteFile(s3Client, bucketName, fileName)
 	if err != nil {
 		fmt.Printf("Couldn't delete file: %v", err)
@@ -94,7 +115,14 @@ func main() {
 	}
 
 	fmt.Println("Successfully delete file")
+}
 
+func createBucket(client *s3.S3, bucketName string) error {
+	_, err := client.CreateBucket(&s3.CreateBucketInput{
+		Bucket: aws.String(bucketName),
+	})
+
+	return err
 }
 
 func listBuckets(client *s3.S3) (*s3.ListBucketsOutput, error) {
@@ -104,14 +132,6 @@ func listBuckets(client *s3.S3) (*s3.ListBucketsOutput, error) {
 	}
 
 	return res, nil
-}
-
-func createBucket(client *s3.S3, bucketName string) error {
-	_, err := client.CreateBucket(&s3.CreateBucketInput{
-		Bucket: aws.String(bucketName),
-	})
-
-	return err
 }
 
 func uploadFile(uploader *s3manager.Uploader, filePath string, bucketName string, fileName string) error {
@@ -129,6 +149,17 @@ func uploadFile(uploader *s3manager.Uploader, filePath string, bucketName string
 	})
 
 	return err
+}
+
+func listObjects(client *s3.S3, bucketName string) (*s3.ListObjectsV2Output, error) {
+	res, err := client.ListObjectsV2(&s3.ListObjectsV2Input{
+		Bucket: aws.String(bucketName),
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }
 
 func downloadFile(downloader *s3manager.Downloader, bucketName string, key string) error {
@@ -151,14 +182,10 @@ func downloadFile(downloader *s3manager.Downloader, bucketName string, key strin
 }
 
 func deleteFile(client *s3.S3, bucketName string, fileName string) error {
-	ctx := context.Background()
-	iter := s3manager.NewDeleteListIterator(client, &s3.ListObjectsInput{
+	_, err := client.DeleteObject(&s3.DeleteObjectInput{
 		Bucket: aws.String(bucketName),
-		Prefix: aws.String(fileName),
+		Key:    aws.String(fileName),
 	})
 
-	if err := s3manager.NewBatchDeleteWithClient(client).Delete(ctx, iter); err != nil {
-		return err
-	}
-	return nil
+	return err
 }
