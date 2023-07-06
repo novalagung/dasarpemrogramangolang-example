@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -96,8 +97,8 @@ func main() {
 	downloader := s3manager.NewDownloader(sess)
 	// fileName := "adamstudio.jpg"
 	// bucketName := "adamstudio-new-bucket"
-	err = downloadFile(downloader, bucketName, fileName)
-
+	downloadPath := filepath.Join("download", fileName)
+	err = downloadFile(downloader, bucketName, fileName, downloadPath)
 	if err != nil {
 		fmt.Printf("Couldn't download file: %v", err)
 		return
@@ -115,6 +116,17 @@ func main() {
 	}
 
 	fmt.Println("Successfully delete file")
+
+	// =============== presign url ===============
+	// fileName := "adamstudio.jpg"
+	// bucketName := "adamstudio-new-bucket"
+	urlStr, err := presignUrl(s3Client, bucketName, fileName)
+	if err != nil {
+		fmt.Printf("Couldn't presign url: %v", err)
+		return
+	}
+
+	fmt.Println("Presign url:", urlStr)
 }
 
 func createBucket(client *s3.S3, bucketName string) error {
@@ -162,8 +174,8 @@ func listObjects(client *s3.S3, bucketName string) (*s3.ListObjectsV2Output, err
 	return res, nil
 }
 
-func downloadFile(downloader *s3manager.Downloader, bucketName string, key string) error {
-	file, err := os.Create(filepath.Join("download", key))
+func downloadFile(downloader *s3manager.Downloader, bucketName string, key string, downloadPath string) error {
+	file, err := os.Create(downloadPath)
 	if err != nil {
 		return err
 	}
@@ -188,4 +200,18 @@ func deleteFile(client *s3.S3, bucketName string, fileName string) error {
 	})
 
 	return err
+}
+
+func presignUrl(client *s3.S3, bucketName string, fileName string) (string, error) {
+	req, _ := client.GetObjectRequest(&s3.GetObjectInput{
+		Bucket: aws.String(bucketName),
+		Key:    aws.String(fileName),
+	})
+
+	urlStr, err := req.Presign(15 * time.Minute)
+	if err != nil {
+		return "", err
+	}
+
+	return urlStr, nil
 }
