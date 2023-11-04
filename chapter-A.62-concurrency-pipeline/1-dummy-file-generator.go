@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"os"
@@ -44,7 +43,7 @@ func generateFiles() {
 	for i := 0; i < totalFile; i++ {
 		filename := filepath.Join(tempPath, fmt.Sprintf("file-%d.txt", i))
 		content := randomString(contentLength)
-		err := ioutil.WriteFile(filename, []byte(content), os.ModePerm)
+		err := os.WriteFile(filename, []byte(content), os.ModePerm)
 		if err != nil {
 			log.Println("Error writing file", filename)
 		}

@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"sync"
 
@@ -17,7 +17,7 @@ var connectionsMap sync.Map
 
 func main() {
 	http.HandleFunc("/chat", func(w http.ResponseWriter, r *http.Request) {
-		buf, err := ioutil.ReadFile("index.html")
+		buf, err := os.ReadFile("index.html")
 		if err != nil {
 			http.Error(w, "Could not serve html file", http.StatusBadRequest)
 			return
