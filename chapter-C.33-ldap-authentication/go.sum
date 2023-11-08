@@ -1,8 +1,6 @@
-github.com/go-asn1-ber/asn1-ber v1.3.1 h1:gvPdv/Hr++TRFCl0UbPFHC54P9N9jgsRPnmnr419Uck=
-github.com/go-asn1-ber/asn1-ber v1.3.1/go.mod h1:hEBeB/ic+5LoWskz+yKT7vGhhPYkProFKoKdwZRWMe0=
-github.com/go-ldap/ldap v0.0.0-20191214221535-a4f79d8a7cda h1:O5/P5iaVhgWgc7s333Yg6QOikOQuDXaXjz9QyE0dZEE=
-github.com/go-ldap/ldap v0.0.0-20191214221535-a4f79d8a7cda/go.mod h1:DgaeGoCRCn0o1hYOoTAy5Ufhya4dqTYxtNq4ebHGxL4=
-github.com/go-ldap/ldap v3.0.3+incompatible h1:HTeSZO8hWMS1Rgb2Ziku6b8a7qRIZZMHjsvuZyatzwk=
-github.com/go-ldap/ldap v3.0.3+incompatible/go.mod h1:qfd9rJvER9Q0/D/Sqn1DfHRoBp40uXYvFoEVrNEPqRc=
-github.com/go-ldap/ldap/v3 v3.1.5 h1:5o1ik2It7MJoXwoS7JXWUebf18L7E1VWBBgYV/iVsN0=
-github.com/go-ldap/ldap/v3 v3.1.5/go.mod h1:5Zun81jBTabRaI8lzN7E1JjyEl1g6zI6u9pd8luAK4Q=
+github.com/go-ldap/ldap v2.5.0+incompatible h1:q4gje9ELj+aiS1Y120Mm8J533cwz70m6qMdDo86Ztng=
+github.com/go-ldap/ldap v2.5.0+incompatible/go.mod h1:qfd9rJvER9Q0/D/Sqn1DfHRoBp40uXYvFoEVrNEPqRc=
+gopkg.in/asn1-ber.v1 v1.0.0-20181015200546-f715ec2f112d h1:TxyelI5cVkbREznMhfzycHdkp5cLA7DpE+GKjSslYhM=
+gopkg.in/asn1-ber.v1 v1.0.0-20181015200546-f715ec2f112d/go.mod h1:cuepJuh7vyXfUyUwEgHQXw849cJrilpS5NeIjOWESAw=
+gopkg.in/ldap.v2 v2.5.1 h1:wiu0okdNfjlBzg6UWvd1Hn8Y+Ux17/u/4nlk4CQr6tU=
+gopkg.in/ldap.v2 v2.5.1/go.mod h1:oI0cpe/D7HRtBQl8aTg+ZmzFUAvu4lsv3eLXMLGFxWk=
