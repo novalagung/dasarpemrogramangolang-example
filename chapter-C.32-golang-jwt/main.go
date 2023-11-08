@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -96,7 +95,7 @@ func HandlerLogin(w http.ResponseWriter, r *http.Request) {
 func authenticateUser(username, password string) (bool, M) {
 	basePath, _ := os.Getwd()
 	dbPath := filepath.Join(basePath, "users.json")
-	buf, _ := ioutil.ReadFile(dbPath)
+	buf, _ := os.ReadFile(dbPath)
 
 	data := make([]M, 0)
 	err := json.Unmarshal(buf, &data)

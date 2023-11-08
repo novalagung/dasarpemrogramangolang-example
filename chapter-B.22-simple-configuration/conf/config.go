@@ -2,7 +2,6 @@ package conf
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"time"
@@ -33,7 +32,7 @@ func init() {
 		return
 	}
 
-	bts, err := ioutil.ReadFile(filepath.Join(basePath, "conf", "config.json"))
+	bts, err := os.ReadFile(filepath.Join(basePath, "conf", "config.json"))
 	if err != nil {
 		panic(err)
 		return
