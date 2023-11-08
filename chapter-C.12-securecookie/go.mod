@@ -1,4 +1,4 @@
-module chapter-C.9-securecookie
+module chapter-C.12-securecookie
 
 go 1.20
 

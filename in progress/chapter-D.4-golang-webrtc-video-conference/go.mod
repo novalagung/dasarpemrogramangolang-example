@@ -1,4 +1,4 @@
-module webrtc
+module chapter-D.4
 
 go 1.20
 

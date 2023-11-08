@@ -1,4 +1,4 @@
-module chapter-C.5-echo-template-rendering
+module chapter-C.7-echo-template-rendering
 
 go 1.20
 

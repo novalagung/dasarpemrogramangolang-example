@@ -1,4 +1,4 @@
-module chapter-C.19-convert-html-to-pdf
+module chapter-C.22-convert-html-to-pdf
 
 go 1.20
 

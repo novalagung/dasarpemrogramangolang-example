@@ -1,4 +1,4 @@
-module go-bulk-insert
+module chapter-D.1
 
 go 1.20
 

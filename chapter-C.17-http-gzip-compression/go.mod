@@ -1,4 +1,4 @@
-module chapter-C.15-http-gzip-compression
+module chapter-C.17-http-gzip-compression
 
 go 1.20
 

@@ -1,4 +1,4 @@
-module ok
+module chapter-C.36-redis
 
 go 1.20
 

@@ -1,4 +1,4 @@
-module chapter-C.1-echo-routing
+module chapter-C.3-echo-routing
 
 go 1.20
 

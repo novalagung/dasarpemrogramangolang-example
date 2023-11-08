@@ -1,4 +1,4 @@
-module chapter-C.6-advanced-middleware-and-logging
+module chapter-C.8-advanced-middleware-and-logging
 
 go 1.20
 

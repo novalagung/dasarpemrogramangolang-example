@@ -1,4 +1,4 @@
-module chapter-C.8.A-advanced-configuration-viper
+module chapter-C.10-advanced-configuration-viper
 
 go 1.20
 

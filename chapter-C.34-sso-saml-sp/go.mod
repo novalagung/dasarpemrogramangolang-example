@@ -1,4 +1,4 @@
-module chapter-c34
+module chapter-C.34-sso-saml-sp
 
 go 1.20
 

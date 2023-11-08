@@ -1,4 +1,4 @@
-module chapter-c28
+module chapter-D.3
 
 go 1.20
 

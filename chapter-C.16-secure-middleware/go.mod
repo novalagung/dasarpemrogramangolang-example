@@ -1,4 +1,4 @@
-module chapter-C.14-secure-middleware
+module chapter-C.16-secure-middleware
 
 go 1.20
 

@@ -1,4 +1,4 @@
-module chapter-C.3-http-request-payload-validation
+module chapter-C.5-http-request-payload-validation
 
 go 1.20
 

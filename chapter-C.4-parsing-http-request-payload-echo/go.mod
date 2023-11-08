@@ -1,4 +1,4 @@
-module chapter-C.2-parsing-http-request-payload-echo
+module chapter-C.4-parsing-http-request-payload-echo
 
 go 1.20
 

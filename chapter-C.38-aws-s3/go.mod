@@ -1,4 +1,4 @@
-module go-s3
+module chapter-C.38-aws-s3
 
 go 1.20
 

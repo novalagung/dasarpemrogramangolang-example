@@ -1,4 +1,4 @@
-module chapter-C.27-golang-ssh-sftp
+module chapter-C.29-golang-ssh-sftp
 
 go 1.20
 

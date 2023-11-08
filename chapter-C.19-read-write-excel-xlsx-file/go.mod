@@ -1,4 +1,4 @@
-module chapter-C.17-read-write-excel-xlsx-file
+module chapter-C.19-read-write-excel-xlsx-file
 
 go 1.20
 

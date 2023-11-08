@@ -1,4 +1,4 @@
-module chapter-C.26-golang-ftp
+module chapter-C.28-golang-ftp
 
 go 1.20
 

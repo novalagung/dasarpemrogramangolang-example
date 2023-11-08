@@ -1,4 +1,4 @@
-module chapter-C.8.B-best-practice-configuration-env-var
+module chapter-C.11-best-practice-configuration-env-var
 
 go 1.20
 

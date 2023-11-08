@@ -1,4 +1,4 @@
-module singleflight
+module chapter-C.32-golang-jwt
 
 go 1.20
 

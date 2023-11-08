@@ -1,4 +1,4 @@
-module chapter-C.12-cors-preflight-request
+module chapter-C.14-cors-preflight-request
 
 go 1.20
 

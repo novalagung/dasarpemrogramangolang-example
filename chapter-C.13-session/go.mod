@@ -1,4 +1,4 @@
-module chapter-C.10-session
+module chapter-C.13-session
 
 go 1.20
 

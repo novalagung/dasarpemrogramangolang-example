@@ -1,4 +1,4 @@
-module chapter-C.13-csrf
+module chapter-C.15-csrf
 
 go 1.20
 

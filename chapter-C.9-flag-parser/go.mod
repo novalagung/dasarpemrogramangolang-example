@@ -1,4 +1,4 @@
-module chapter-C.7-flag-parser
+module chapter-C.9-flag-parser
 
 go 1.20
 

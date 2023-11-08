@@ -1,4 +1,4 @@
-module chapter-c32
+module chapter-C.32-golang-jwt
 
 go 1.20
 

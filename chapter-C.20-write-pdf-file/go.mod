@@ -1,4 +1,4 @@
-module chapter-C.18-write-pdf-file
+module chapter-C.20-write-pdf-file
 
 go 1.20
 

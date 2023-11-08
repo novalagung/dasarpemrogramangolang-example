@@ -1,4 +1,4 @@
-module chapter-C.21-xml-parser
+module chapter-C.23-xml-parser
 
 go 1.20
 

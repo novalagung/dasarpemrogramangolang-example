@@ -1,4 +1,4 @@
-module chapter-C.4-http-error-handling
+module chapter-C.6-http-error-handling
 
 go 1.20
 

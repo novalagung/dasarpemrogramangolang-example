@@ -1,4 +1,4 @@
-module chapter-C.16-send-email
+module chapter-C.18-send-email
 
 go 1.20
 
