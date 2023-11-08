@@ -1,3 +1,3 @@
 module belajar-golang-level-akses-init-func
 
-go 1.14
+go 1.20

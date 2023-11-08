@@ -1,5 +1,5 @@
 module chapter-C.21-xml-parser
 
-go 1.14
+go 1.20
 
 require github.com/beevik/etree v1.1.0
