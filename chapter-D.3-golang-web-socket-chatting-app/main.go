@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -36,7 +35,7 @@ type WebSocketConnection struct {
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		content, err := ioutil.ReadFile("index.html")
+		content, err := os.ReadFile("index.html")
 		if err != nil {
 			http.Error(w, "Could not open requested file", http.StatusInternalServerError)
 			return

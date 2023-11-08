@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/jlaffaye/ftp"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 )
@@ -87,7 +86,7 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	test1ContentInBytes, err := ioutil.ReadAll(fileTest1)
+	test1ContentInBytes, err := io.ReadAll(fileTest1)
 	fileTest1.Close()
 	if err != nil {
 		log.Fatal(err.Error())
@@ -101,7 +100,7 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	test2ContentInBytes, err := ioutil.ReadAll(fileTest2)
+	test2ContentInBytes, err := io.ReadAll(fileTest2)
 	fileTest2.Close()
 	if err != nil {
 		log.Fatal(err.Error())

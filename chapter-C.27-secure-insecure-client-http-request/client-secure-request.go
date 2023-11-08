@@ -5,9 +5,9 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 )
 
 type M map[string]interface{}
@@ -28,7 +28,7 @@ func doRequest(url, method string, data interface{}) (interface{}, error) {
 		return nil, err
 	}
 
-	certFile, err := ioutil.ReadFile("server.crt")
+	certFile, err := os.ReadFile("server.crt")
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +82,7 @@ func main() {
 //  log.Fatalln("Unable to load cert", err)
 // }
 
-// clientCACert, err := ioutil.ReadFile("server.crt")
+// clientCACert, err := os.ReadFile("server.crt")
 // if err != nil {
 //  log.Fatal("Unable to open cert", err)
 // }

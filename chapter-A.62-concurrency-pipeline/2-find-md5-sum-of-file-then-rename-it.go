@@ -3,7 +3,6 @@ package main
 import (
 	"crypto/md5"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -40,7 +39,7 @@ func proceed() {
 		counterTotal++
 
 		// read file
-		buf, err := ioutil.ReadFile(path)
+		buf, err := os.ReadFile(path)
 		if err != nil {
 			return err
 		}

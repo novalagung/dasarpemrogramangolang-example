@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
-import "runtime"
+import (
+	"fmt"
+	"runtime"
+	"time"
+)
 
 func main() {
 	runtime.GOMAXPROCS(2)
@@ -19,4 +22,6 @@ func main() {
 		fmt.Println("send data", i)
 		messages <- i
 	}
+
+	time.Sleep(1 * time.Second)
 }
