@@ -23,9 +23,10 @@ require (
 	github.com/subosito/gotenv v1.2.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.0.1 // indirect
-	golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2 // indirect
-	golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a // indirect
-	golang.org/x/text v0.3.0 // indirect
+	golang.org/x/crypto v0.17.0 // indirect
+	golang.org/x/net v0.10.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/ini.v1 v1.51.0 // indirect
 	gopkg.in/yaml.v2 v2.2.4 // indirect
 )
