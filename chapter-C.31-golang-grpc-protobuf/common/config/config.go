@@ -1,6 +1,6 @@
 package config
 
 const (
-	SERVICE_GARAGE_PORT = ":7000"
-	SERVICE_USER_PORT   = ":9000"
+	ServiceGaragePort = ":7000"
+	ServiceUserPort   = ":9000"
 )

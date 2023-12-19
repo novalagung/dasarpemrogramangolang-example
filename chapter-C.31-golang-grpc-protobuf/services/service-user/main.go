@@ -2,13 +2,13 @@ package main
 
 import (
 	"context"
+	"google.golang.org/protobuf/types/known/emptypb"
 	"log"
 	"net"
 
 	"chapter-c30/common/config"
 	"chapter-c30/common/model"
 
-	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 )
 
@@ -19,17 +19,21 @@ func init() {
 	localStorage.List = make([]*model.User, 0)
 }
 
-type UsersServer struct{}
-
-func (UsersServer) Register(ctx context.Context, param *model.User) (*empty.Empty, error) {
-	localStorage.List = append(localStorage.List, param)
-
-	log.Println("Registering user", param.String())
-
-	return new(empty.Empty), nil
+type UsersServer struct {
+	model.UnimplementedUsersServer
 }
 
-func (UsersServer) List(ctx context.Context, void *empty.Empty) (*model.UserList, error) {
+func (UsersServer) Register(_ context.Context, param *model.User) (*emptypb.Empty, error) {
+	user := param
+
+	localStorage.List = append(localStorage.List, user)
+
+	log.Println("Registering user", user.String())
+
+	return new(emptypb.Empty), nil
+}
+
+func (UsersServer) List(context.Context, *emptypb.Empty) (*model.UserList, error) {
 	return localStorage, nil
 }
 
@@ -38,11 +42,11 @@ func main() {
 	var userSrv UsersServer
 	model.RegisterUsersServer(srv, userSrv)
 
-	log.Println("Starting RPC server at", config.SERVICE_USER_PORT)
+	log.Println("Starting RPC server at", config.ServiceUserPort)
 
-	l, err := net.Listen("tcp", config.SERVICE_USER_PORT)
+	l, err := net.Listen("tcp", config.ServiceUserPort)
 	if err != nil {
-		log.Fatalf("could not listen to %s: %v", config.SERVICE_USER_PORT, err)
+		log.Fatalf("could not listen to %s: %v", config.ServiceUserPort, err)
 	}
 
 	log.Fatal(srv.Serve(l))

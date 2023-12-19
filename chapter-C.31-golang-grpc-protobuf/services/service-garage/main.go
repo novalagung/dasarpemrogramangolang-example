@@ -2,13 +2,13 @@ package main
 
 import (
 	"context"
+	"github.com/golang/protobuf/ptypes/empty"
 	"log"
 	"net"
 
 	"chapter-c30/common/config"
 	"chapter-c30/common/model"
 
-	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 )
 
@@ -19,9 +19,11 @@ func init() {
 	localStorage.List = make(map[string]*model.GarageList)
 }
 
-type GaragesServer struct{}
+type GaragesServer struct {
+	model.UnimplementedGaragesServer
+}
 
-func (GaragesServer) Add(ctx context.Context, param *model.GarageAndUserId) (*empty.Empty, error) {
+func (GaragesServer) Add(_ context.Context, param *model.GarageAndUserId) (*empty.Empty, error) {
 	userId := param.UserId
 	garage := param.Garage
 
@@ -36,7 +38,7 @@ func (GaragesServer) Add(ctx context.Context, param *model.GarageAndUserId) (*em
 	return new(empty.Empty), nil
 }
 
-func (GaragesServer) List(ctx context.Context, param *model.GarageUserId) (*model.GarageList, error) {
+func (GaragesServer) List(_ context.Context, param *model.GarageUserId) (*model.GarageList, error) {
 	userId := param.UserId
 
 	return localStorage.List[userId], nil
@@ -47,11 +49,11 @@ func main() {
 	var garageSrv GaragesServer
 	model.RegisterGaragesServer(srv, garageSrv)
 
-	log.Println("Starting RPC server at", config.SERVICE_GARAGE_PORT)
+	log.Println("Starting RPC server at", config.ServiceGaragePort)
 
-	l, err := net.Listen("tcp", config.SERVICE_GARAGE_PORT)
+	l, err := net.Listen("tcp", config.ServiceGaragePort)
 	if err != nil {
-		log.Fatalf("could not listen to %s: %v", config.SERVICE_GARAGE_PORT, err)
+		log.Fatalf("could not listen to %s: %v", config.ServiceGaragePort, err)
 	}
 
 	log.Fatal(srv.Serve(l))

@@ -1,13 +1,10 @@
 package main
 
 import (
-	"bytes"
-	"fmt"
-	"os"
-
 	"chapter-c29/model"
-
-	"github.com/golang/protobuf/jsonpb"
+	"fmt"
+	"google.golang.org/protobuf/encoding/protojson"
+	"os"
 )
 
 var user1 = &model.User{
@@ -49,24 +46,24 @@ func main() {
 	fmt.Printf("# ==== Original\n       %#v \n", user1)
 
 	// =========== as string
-	fmt.Printf("# ==== As String\n       %v \n", user1.String())
+	fmt.Printf("# ==== As String\n       %s \n", user1.String())
 
 	// =========== as json string
-	var buf bytes.Buffer
-	err1 := (&jsonpb.Marshaler{}).Marshal(&buf, garageList)
+
+	jsonb, err1 := protojson.Marshal(garageList)
 	if err1 != nil {
 		fmt.Println(err1.Error())
 		os.Exit(0)
 	}
-	jsonString := buf.String()
-	fmt.Printf("# ==== As JSON String\n       %v \n", jsonString)
+	fmt.Printf("# ==== As JSON String\n       %s \n", string(jsonb))
 
 	// =========== from json string to protobuf object
 	protoObject := new(model.GarageList)
-	err2 := jsonpb.UnmarshalString(jsonString, protoObject)
+	err2 := protojson.Unmarshal(jsonb, protoObject)
 	if err2 != nil {
 		fmt.Println(err2.Error())
 		os.Exit(0)
 	}
-	fmt.Printf("# ==== As String\n       %v \n", protoObject.String())
+
+	fmt.Printf("# ==== As String\n       %s \n", protoObject.String())
 }

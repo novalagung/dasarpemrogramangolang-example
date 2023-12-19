@@ -1,21 +1,22 @@
 package main
 
 import (
+	"chapter-c30/common/config"
+	"chapter-c30/common/model"
 	"context"
 	"encoding/json"
 	"fmt"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/protobuf/types/known/emptypb"
 	"log"
+	"strings"
 
-	"chapter-c30/common/config"
-	"chapter-c30/common/model"
-
-	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 )
 
 func serviceGarage() model.GaragesClient {
-	port := config.SERVICE_GARAGE_PORT
-	conn, err := grpc.Dial(port, grpc.WithInsecure())
+	port := config.ServiceGaragePort
+	conn, err := grpc.Dial(port, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatal("could not connect to", port, err)
 	}
@@ -24,8 +25,8 @@ func serviceGarage() model.GaragesClient {
 }
 
 func serviceUser() model.UsersClient {
-	port := config.SERVICE_USER_PORT
-	conn, err := grpc.Dial(port, grpc.WithInsecure())
+	port := config.ServiceUserPort
+	conn, err := grpc.Dial(port, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatal("could not connect to", port, err)
 	}
@@ -74,7 +75,7 @@ func main() {
 
 	user := serviceUser()
 
-	fmt.Println("\n", "===========> user test")
+	fmt.Printf("\n %s> user test\n", strings.Repeat("=", 10))
 
 	// register user1
 	user.Register(context.Background(), &user1)
@@ -83,7 +84,7 @@ func main() {
 	user.Register(context.Background(), &user2)
 
 	// show all registered users
-	res1, err := user.List(context.Background(), new(empty.Empty))
+	res1, err := user.List(context.Background(), new(emptypb.Empty))
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -92,7 +93,7 @@ func main() {
 
 	garage := serviceGarage()
 
-	fmt.Println("\n", "===========> garage test A")
+	fmt.Printf("\n %s> garage test A\n", strings.Repeat("=", 10))
 
 	// add garage1 to user1
 	garage.Add(context.Background(), &model.GarageAndUserId{
@@ -114,7 +115,7 @@ func main() {
 	res2String, _ := json.Marshal(res2.List)
 	log.Println(string(res2String))
 
-	fmt.Println("\n", "===========> garage test B")
+	fmt.Printf("\n %s> garage test B\n", strings.Repeat("=", 10))
 
 	// add garage3 to user2
 	garage.Add(context.Background(), &model.GarageAndUserId{
