@@ -1,6 +1,6 @@
 syntax = "proto3";
-
 package model;
+
 option go_package = "./common/model";
 
 message GarageCoordinate {
@@ -22,6 +22,7 @@ message GarageListByUser {
     map<string, GarageList> list = 1;
 }
 
+
 // ==== for service
 
 message GarageUserId {
@@ -33,7 +34,7 @@ message GarageAndUserId {
     Garage garage = 2;
 }
 
-import "google/protobuf/Empty.proto";
+import "google/protobuf/empty.proto";
 
 service Garages {
     rpc List(GarageUserId) returns (GarageList) {}
