@@ -17,6 +17,7 @@ func main() {
 		if err != nil {
 			return err
 		}
+		defer f.Close()
 
 		_, err = io.Copy(c.Response(), f)
 		if err != nil {

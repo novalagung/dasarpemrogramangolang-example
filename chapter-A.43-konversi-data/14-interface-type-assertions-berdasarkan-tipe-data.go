@@ -24,7 +24,7 @@ func main() {
 		case []string:
 			fmt.Println(val.([]string))
 		default:
-			fmt.Println(val.(int))
+			fmt.Println("unknown type")
 		}
 	}
 }

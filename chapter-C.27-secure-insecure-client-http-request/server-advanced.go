@@ -56,7 +56,6 @@ func getTlsConfig() *tls.Config {
 	tlsConfig.Certificates = []tls.Certificate{
 		certPair1, /** add other certificates here **/
 	}
-	tlsConfig.BuildNameToCertificate()
 
 	tlsConfig.ClientAuth = tls.VerifyClientCertIfGiven
 	tlsConfig.CurvePreferences = []tls.CurveID{

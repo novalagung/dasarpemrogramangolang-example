@@ -17,7 +17,7 @@ import (
 type M map[string]interface{}
 
 type MyClaims struct {
-	jwt.StandardClaims
+	jwt.RegisteredClaims
 	Username string `json:"Username"`
 	Email    string `json:"Email"`
 	Group    string `json:"Group"`
@@ -68,9 +68,9 @@ func HandlerLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	claims := MyClaims{
-		StandardClaims: jwt.StandardClaims{
+		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    APPLICATION_NAME,
-			ExpiresAt: time.Now().Add(LOGIN_EXPIRATION_DURATION).Unix(),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(LOGIN_EXPIRATION_DURATION)),
 		},
 		Username: userInfo["username"].(string),
 		Email:    userInfo["email"].(string),
@@ -148,11 +148,11 @@ func MiddlewareJWTAuthorization(next http.Handler) http.Handler {
 
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if !ok || !token.Valid {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			http.Error(w, "Invalid token", http.StatusBadRequest)
 			return
 		}
 
-		ctx := context.WithValue(context.Background(), "userInfo", claims)
+		ctx := context.WithValue(r.Context(), "userInfo", claims)
 		r = r.WithContext(ctx)
 
 		next.ServeHTTP(w, r)

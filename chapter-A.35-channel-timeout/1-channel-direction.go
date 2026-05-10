@@ -16,7 +16,7 @@ func sendData(ch chan<- int) {
 	}
 }
 
-func retreiveData(ch <-chan int) {
+func retrieveData(ch <-chan int) {
 loop:
 	for {
 		select {
@@ -35,5 +35,5 @@ func main() {
 	var messages = make(chan int)
 
 	go sendData(messages)
-	retreiveData(messages)
+	retrieveData(messages)
 }

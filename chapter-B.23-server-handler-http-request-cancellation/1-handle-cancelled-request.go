@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -24,7 +23,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 			if strings.Contains(strings.ToLower(err.Error()), "canceled") {
 				log.Println("request canceled")
 			} else {
-				log.Println("unknown error occured.", err.Error())
+				log.Println("unknown error occurred.", err.Error())
 			}
 		}
 	case <-done:

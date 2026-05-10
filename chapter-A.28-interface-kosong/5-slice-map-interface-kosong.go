@@ -17,7 +17,7 @@ func main() {
 
 	var fruits = []interface{}{
 		map[string]interface{}{"name": "strawberry", "total": 10},
-		[]string{"manggo", "pineapple", "papaya"},
+		[]string{"mango", "pineapple", "papaya"},
 		"orange",
 	}
 

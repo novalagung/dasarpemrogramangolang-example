@@ -28,7 +28,7 @@ func sendMail(to []string, cc []string, subject, message string) error {
 	}
 	defer c.Close()
 
-	err = c.Mail(CONFIG_SENDER_NAME)
+	err = c.Mail("emailanda@gmail.com")
 	if err != nil {
 		return err
 	}

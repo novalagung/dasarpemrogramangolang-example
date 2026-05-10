@@ -17,12 +17,12 @@ func main() {
 	fmt.Println(aaFruits) // [grape]
 	fmt.Println(baFruits) // [grape]
 
-	// Buah "grape" diubah menjadi "pinnaple"
-	baFruits[0] = "pinnaple"
+	// Buah "grape" diubah menjadi "pineapple"
+	baFruits[0] = "pineapple"
 
-	fmt.Println(fruits)   // [apple pinnaple banana melon]
-	fmt.Println(aFruits)  // [apple pinnaple banana]
-	fmt.Println(bFruits)  // [pinnaple banana melon]
-	fmt.Println(aaFruits) // [pinnaple]
-	fmt.Println(baFruits) // [pinnaple]
+	fmt.Println(fruits)   // [apple pineapple banana melon]
+	fmt.Println(aFruits)  // [apple pineapple banana]
+	fmt.Println(bFruits)  // [pineapple banana melon]
+	fmt.Println(aaFruits) // [pineapple]
+	fmt.Println(baFruits) // [pineapple]
 }

@@ -17,7 +17,7 @@ func fetchUsers() ([]student, error) {
 	var client = &http.Client{}
 	var data []student
 
-	request, err := http.NewRequest("POST", baseURL+"/users", nil)
+	request, err := http.NewRequest("GET", baseURL+"/users", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +33,7 @@ func fetchUsers() ([]student, error) {
 		return nil, err
 	}
 
-	return data,nil
+	return data, nil
 }
 
 func main() {

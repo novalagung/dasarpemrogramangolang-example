@@ -9,10 +9,6 @@ type UserModel[T int | float64] struct {
     Scores []T
 }
 
-func (m *UserModel[int|float64]) SetScoresA(scores []int) {
-	m.Scores = scores
-}
-
 func (m *UserModel[float64]) SetScoresB(scores []float64) {
 	m.Scores = scores
 }

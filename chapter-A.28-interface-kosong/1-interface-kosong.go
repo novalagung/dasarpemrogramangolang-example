@@ -8,7 +8,7 @@ func main() {
 	secret = "ethan hunt"
 	fmt.Println(secret)
 
-	secret = []string{"apple", "manggo", "banana"}
+	secret = []string{"apple", "mango", "banana"}
 	fmt.Println(secret)
 
 	secret = 12.4

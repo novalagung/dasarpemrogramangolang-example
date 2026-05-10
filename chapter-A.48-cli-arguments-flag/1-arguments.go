@@ -10,5 +10,5 @@ func main() {
 
 	var args = argsRaw[1:]
 	fmt.Printf("-> %#v\n", args)
-	// []string{"banana", "potato"}
+	// []string{"banana", "potato", "ice cream"}
 }

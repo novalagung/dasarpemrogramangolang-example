@@ -29,7 +29,12 @@ func sqlExec() {
 	defer db.Close()
 
 	stmt, err := db.Prepare("insert into tb_student values (?, ?, ?, ?)")
-	stmt.Exec("G001", "Galahad", 29, 2)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	_, err = stmt.Exec("G001", "Galahad", 29, 2)
 	if err != nil {
 		fmt.Println(err.Error())
 		return

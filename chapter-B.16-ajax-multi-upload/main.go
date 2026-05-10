@@ -45,13 +45,11 @@ func handleUpload(w http.ResponseWriter, r *http.Request) {
 
 		fileLocation := filepath.Join(basePath, "files", part.FileName())
 		dst, err := os.Create(fileLocation)
-		if dst != nil {
-			defer dst.Close()
-		}
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		defer dst.Close()
 
 		if _, err := io.Copy(dst, part); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

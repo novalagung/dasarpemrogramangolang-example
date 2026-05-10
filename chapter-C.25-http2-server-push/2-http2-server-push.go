@@ -12,7 +12,7 @@ const indexHTML = `
         <head>
             <title>Hello World</title>
             <script src="/static/app.js"></script>
-            <link rel="stylesheet" href="/static/app.css"">
+            <link rel="stylesheet" href="/static/app.css">
         </head>
         <body>
         Hello, gopher!<br>
@@ -41,7 +41,7 @@ func main() {
 				log.Printf("Failed to push: %v", err)
 			}
 		}
-        
+
 		fmt.Fprintf(w, indexHTML)
 	})
 

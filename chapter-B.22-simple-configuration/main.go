@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"chapter-B.22-configuration-file/conf"
+	"chapter-B.22-simple-configuration/conf"
 )
 
 type CustomMux struct {

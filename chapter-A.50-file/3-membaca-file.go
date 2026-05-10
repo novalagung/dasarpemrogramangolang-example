@@ -20,12 +20,17 @@ func readFile() {
 	if isError(err) { return }
 	defer file.Close()
 
-    // baca file
-    var text = make([]byte, 1024)
+	// baca file
+	var text = make([]byte, 1024)
 	for {
-		n, err := file.Read(text)
-		if err != io.EOF {
-			if isError(err) { break }
+		var n int
+		n, err = file.Read(text)
+		if err != nil {
+			if err == io.EOF {
+				err = nil
+				break
+			}
+			if isError(err) { return }
 		}
 		if n == 0 {
 			break

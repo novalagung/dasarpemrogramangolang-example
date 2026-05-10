@@ -7,5 +7,5 @@ func main() {
 	var bul = true
 	var str = strconv.FormatBool(bul)
 
-	fmt.Println(str) // 124
+	fmt.Println(str) // true
 }

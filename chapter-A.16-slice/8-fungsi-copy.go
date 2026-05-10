@@ -4,20 +4,20 @@ import "fmt"
 
 func main() {
 	dst := make([]string, 3)
-	src := []string{"watermelon", "pinnaple", "apple", "orange"}
+	src := []string{"watermelon", "pineapple", "apple", "orange"}
 	n := copy(dst, src)
 
-	fmt.Println(dst) // watermelon pinnaple apple
-	fmt.Println(src) // watermelon pinnaple apple orange
+	fmt.Println(dst) // watermelon pineapple apple
+	fmt.Println(src) // watermelon pineapple apple orange
 	fmt.Println(n)   // 3
 
 	// ---------------------
 
 	dst = []string{"potato", "potato", "potato"}
-	src = []string{"watermelon", "pinnaple"}
+	src = []string{"watermelon", "pineapple"}
 	n = copy(dst, src)
 
-	fmt.Println(dst) // watermelon pinnaple potato
-	fmt.Println(src) // watermelon pinnaple
+	fmt.Println(dst) // watermelon pineapple potato
+	fmt.Println(src) // watermelon pineapple
 	fmt.Println(n)   // 2
 }

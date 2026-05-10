@@ -15,7 +15,7 @@ func validate(input string) (bool, error) {
 
 func catch() {
 if r := recover(); r != nil {
-        fmt.Println("Error occured", r)
+        fmt.Println("Error occurred", r)
     } else {
         fmt.Println("Application running perfectly")
     }

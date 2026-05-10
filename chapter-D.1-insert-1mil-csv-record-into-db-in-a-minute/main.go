@@ -112,7 +112,7 @@ func openCsvFile() (*csv.Reader, *os.File, error) {
 }
 
 func dispatchWorkers(db *sql.DB, jobs <-chan []interface{}, wg *sync.WaitGroup) {
-	for workerIndex := 0; workerIndex <= totalWorker; workerIndex++ {
+	for workerIndex := 0; workerIndex < totalWorker; workerIndex++ {
 		go func(workerIndex int, db *sql.DB, jobs <-chan []interface{}, wg *sync.WaitGroup) {
 			counter := 0
 

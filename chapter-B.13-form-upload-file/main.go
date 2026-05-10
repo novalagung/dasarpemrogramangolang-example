@@ -40,7 +40,7 @@ func routeSubmitPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	alias := r.FormValue("alias")
+	alias := filepath.Base(r.FormValue("alias"))
 
 	uploadedFile, handler, err := r.FormFile("file")
 	if err != nil {

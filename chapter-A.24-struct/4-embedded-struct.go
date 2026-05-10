@@ -20,6 +20,6 @@ func main() {
 
 	fmt.Println("name  :", s1.name)
 	fmt.Println("age   :", s1.age)
-	fmt.Println("age   :", s1.person.age)
+	fmt.Println("person age:", s1.person.age)
 	fmt.Println("grade :", s1.grade)
 }

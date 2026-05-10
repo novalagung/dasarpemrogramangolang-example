@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/gorilla/websocket"
@@ -48,6 +49,7 @@ func main() {
 		currentGorillaConn, err := websocket.Upgrade(w, r, w.Header(), 1024, 1024)
 		if err != nil {
 			http.Error(w, "Could not open websocket connection", http.StatusBadRequest)
+			return
 		}
 
 		username := r.URL.Query().Get("username")

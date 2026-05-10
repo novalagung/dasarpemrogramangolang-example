@@ -18,7 +18,7 @@ func main() {
 	}
 
 	confServerPort := os.Getenv("SERVER_PORT")
-	if confAppName == "" {
+	if confServerPort == "" {
 		e.Logger.Fatal("SERVER_PORT config is required")
 	}
 

@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/golang/protobuf/ptypes/empty"
+	"google.golang.org/protobuf/types/known/emptypb"
 	"log"
 	"net"
 
@@ -23,7 +23,7 @@ type GaragesServer struct {
 	model.UnimplementedGaragesServer
 }
 
-func (GaragesServer) Add(_ context.Context, param *model.GarageAndUserId) (*empty.Empty, error) {
+func (GaragesServer) Add(_ context.Context, param *model.GarageAndUserId) (*emptypb.Empty, error) {
 	userId := param.UserId
 	garage := param.Garage
 
@@ -35,7 +35,7 @@ func (GaragesServer) Add(_ context.Context, param *model.GarageAndUserId) (*empt
 
 	log.Println("Adding garage", garage.String(), "for user", userId)
 
-	return new(empty.Empty), nil
+	return new(emptypb.Empty), nil
 }
 
 func (GaragesServer) List(_ context.Context, param *model.GarageUserId) (*model.GarageList, error) {

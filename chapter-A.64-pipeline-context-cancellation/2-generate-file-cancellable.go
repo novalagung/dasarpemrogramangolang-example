@@ -100,7 +100,7 @@ func generateFileIndexes(ctx context.Context) <-chan FileInfo {
 		for i := 0; i < totalFile; i++ {
 			select {
 			case <-ctx.Done():
-				break
+				return
 			default:
 				chanOut <- FileInfo{
 					Index:    i,

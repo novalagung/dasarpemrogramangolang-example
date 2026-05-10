@@ -45,7 +45,7 @@ func MiddlewareAuth(next http.Handler) http.Handler {
 func MiddlewareAllowOnlyGet(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != "GET" {
-			w.Write([]byte("Only GET is allowed"))
+			http.Error(w, "Only GET is allowed", http.StatusMethodNotAllowed)
 			return
 		}
 

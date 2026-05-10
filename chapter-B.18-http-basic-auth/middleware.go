@@ -8,7 +8,7 @@ const PASSWORD = "secret"
 func Auth(w http.ResponseWriter, r *http.Request) bool {
 	username, password, ok := r.BasicAuth()
 	if !ok {
-		w.Write([]byte(`something went wrong`))
+		http.Error(w, "unauthorized", http.StatusUnauthorized)
 		return false
 	}
 

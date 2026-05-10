@@ -9,6 +9,9 @@ var funcMap = template.FuncMap{
 		return template.HTML(s)
 	},
 	"avg": func(n ...int) int {
+		if len(n) == 0 {
+			return 0
+		}
 		var total = 0
 		for _, each := range n {
 			total += each

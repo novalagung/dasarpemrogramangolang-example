@@ -24,8 +24,8 @@ func main() {
 		return ctx.HTML(http.StatusOK, data)
 	})
 
-	// ===> curl -I -X GET http://localhost:9000/index
-	r.GET("/index", func(ctx echo.Context) error {
+	// ===> curl -I -X GET http://localhost:9000/redirect-to-index
+	r.GET("/redirect-to-index", func(ctx echo.Context) error {
 		return ctx.Redirect(http.StatusTemporaryRedirect, "/")
 	})
 

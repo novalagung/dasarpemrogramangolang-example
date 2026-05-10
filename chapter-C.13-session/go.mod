@@ -6,13 +6,12 @@ require (
 	github.com/antonlindstrom/pgstore v0.0.0-20200229204646-b08ebf1105e0
 	github.com/gorilla/context v1.1.1
 	github.com/gorilla/sessions v1.2.0
+	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 	github.com/kidstuff/mongostore v0.0.0-20181113001930-e650cd85ee4b
 	github.com/labstack/echo v3.3.10+incompatible
-	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 )
 
 require (
-	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/labstack/gommon v0.3.0 // indirect
 	github.com/lib/pq v1.4.0 // indirect

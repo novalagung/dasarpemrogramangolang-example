@@ -3,6 +3,7 @@ package main
 import "fmt"
 import "os"
 
+// sesuaikan path dengan sistem masing-masing
 var path = "/Users/novalagung/Documents/temp/test.txt"
 
 func isError(err error) bool {

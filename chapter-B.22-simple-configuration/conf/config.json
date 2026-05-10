@@ -6,6 +6,6 @@
     },
 
     "log": {
-        "enable": true
+        "verbose": true
     }
 }

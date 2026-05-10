@@ -11,5 +11,6 @@ func main() {
 	// cara ke-2
 	var data2 string
 	flag.StringVar(&data2, "gender", "male", "type your gender")
+	flag.Parse()
 	fmt.Println(data2)
 }

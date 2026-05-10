@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/globalsign/mgo"
 	"github.com/gorilla/context"
 	"github.com/kidstuff/mongostore"
 	"github.com/labstack/echo"
-	"gopkg.in/mgo.v2"
 	"log"
 	"net/http"
 	"os"

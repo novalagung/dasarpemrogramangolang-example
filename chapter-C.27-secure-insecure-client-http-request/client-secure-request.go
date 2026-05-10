@@ -37,7 +37,6 @@ func doRequest(url, method string, data interface{}) (interface{}, error) {
 	caCertPool.AppendCertsFromPEM(certFile)
 
 	tlsConfig := &tls.Config{RootCAs: caCertPool}
-	tlsConfig.BuildNameToCertificate()
 
 	client := new(http.Client)
 	client.Transport = &http.Transport{

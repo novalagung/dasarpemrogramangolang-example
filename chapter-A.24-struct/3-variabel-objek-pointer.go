@@ -12,9 +12,9 @@ func main() {
 
 	var s2 *student = &s1
 	fmt.Println("student 1, name :", s1.name)
-	fmt.Println("student 4, name :", s2.name)
+	fmt.Println("student 2, name :", s2.name)
 
 	s2.name = "ethan"
 	fmt.Println("student 1, name :", s1.name)
-	fmt.Println("student 4, name :", s2.name)
+	fmt.Println("student 2, name :", s2.name)
 }

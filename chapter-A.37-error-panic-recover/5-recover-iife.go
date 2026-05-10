@@ -10,13 +10,13 @@ func main() {
 		func() {
 			defer func() {
 				if r := recover(); r != nil {
-					fmt.Println("Panic occured on looping", each, "| message:", r)
+					fmt.Println("Panic occurred on looping", each, "| message:", r)
 				} else {
 					fmt.Println("Application running perfectly")
 				}
 			}()
 
-			panic("some error happen")
+			panic("some error happened")
 		}()
 
 	}
