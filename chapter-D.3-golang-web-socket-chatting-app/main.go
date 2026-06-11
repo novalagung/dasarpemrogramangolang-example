@@ -24,11 +24,6 @@ var upgrader = websocket.Upgrader{
 
 var connections = make([]*WebSocketConnection, 0)
 
-var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-}
-
 type SocketPayload struct {
 	Message string
 }
