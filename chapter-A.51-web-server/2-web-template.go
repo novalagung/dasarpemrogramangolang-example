@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 import "html/template"
+import "log"
 import "net/http"
 
 func main() {
@@ -21,5 +22,8 @@ func main() {
 	})
 
 	fmt.Println("starting web server at http://localhost:8080/")
-	http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

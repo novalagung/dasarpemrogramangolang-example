@@ -4,12 +4,12 @@ import "fmt"
 
 type People1 struct {
 	name string
-	age int
+	age  int
 }
 
 type People2 = struct {
 	name string
-	age int
+	age  int
 }
 
 func main() {

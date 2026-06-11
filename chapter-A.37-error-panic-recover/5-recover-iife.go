@@ -8,6 +8,7 @@ func main() {
 	for _, each := range data {
 
 		func() {
+			// recover untuk IIFE dalam perulangan
 			defer func() {
 				if r := recover(); r != nil {
 					fmt.Println("Panic occurred on looping", each, "| message:", r)
@@ -16,7 +17,7 @@ func main() {
 				}
 			}()
 
-			panic("some error happened")
+			panic("an error happened")
 		}()
 
 	}

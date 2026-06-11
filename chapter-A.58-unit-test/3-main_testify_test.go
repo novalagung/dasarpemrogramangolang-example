@@ -13,13 +13,13 @@ var (
 )
 
 func TestHitungVolume(t *testing.T) {
-	assert.Equal(t, kubus.Volume(), volumeSeharusnya, "perhitungan volume salah")
+	assert.Equal(t, volumeSeharusnya, kubus.Volume(), "perhitungan volume salah")
 }
 
 func TestHitungLuas(t *testing.T) {
-	assert.Equal(t, kubus.Luas(), luasSeharusnya, "perhitungan luas salah")
+	assert.Equal(t, luasSeharusnya, kubus.Luas(), "perhitungan luas salah")
 }
 
 func TestHitungKeliling(t *testing.T) {
-	assert.Equal(t, kubus.Keliling(), kelilingSeharusnya, "perhitungan keliling salah")
+	assert.Equal(t, kelilingSeharusnya, kubus.Keliling(), "perhitungan keliling salah")
 }

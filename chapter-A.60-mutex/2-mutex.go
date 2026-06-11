@@ -7,17 +7,17 @@ import (
 )
 
 type counter struct {
-	sync.Mutex
+	mu  sync.Mutex
 	val int
 }
 
 func (c *counter) Add(x int) {
-	c.Lock()
+	c.mu.Lock()
 	c.val++
-	c.Unlock()
+	c.mu.Unlock()
 }
 
-func (c *counter) Value() (x int) {
+func (c *counter) Value() int {
 	return c.val
 }
 

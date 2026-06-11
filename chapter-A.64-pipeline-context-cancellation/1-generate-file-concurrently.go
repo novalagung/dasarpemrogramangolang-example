@@ -13,7 +13,7 @@ import (
 const totalFile = 3000
 const contentLength = 5000
 
-var tempPath = filepath.Join(os.Getenv("TEMP"), "temp-pipeline-context-cancellation")
+var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.64-pipeline-cancellation-context")
 
 type FileInfo struct {
 	Index       int
@@ -46,7 +46,7 @@ func randomString(length int) string {
 
 func generateFiles() {
 	os.RemoveAll(tempPath)
-	os.MkdirAll(tempPath, os.ModePerm)
+	os.MkdirAll(tempPath, 0755)
 
 	// pipeline 1: job distribution
 	chanFileIndex := generateFileIndexes()
@@ -98,7 +98,7 @@ func createFiles(chanIn <-chan FileInfo, numberOfWorkers int) <-chan FileInfo {
 				for job := range chanIn {
 					filePath := filepath.Join(tempPath, job.FileName)
 					content := randomString(contentLength)
-					err := os.WriteFile(filePath, []byte(content), os.ModePerm)
+					err := os.WriteFile(filePath, []byte(content), 0644)
 
 					log.Println("worker", workerIndex, "working on", job.FileName, "file generation")
 

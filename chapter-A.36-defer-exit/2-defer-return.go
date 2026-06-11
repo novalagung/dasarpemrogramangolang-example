@@ -17,4 +17,3 @@ func orderSomeFood(menu string) {
 
 	fmt.Println("Pesanan anda:", menu)
 }
-

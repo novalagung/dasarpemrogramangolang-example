@@ -1,6 +1,7 @@
 package main
 
 import "fmt"
+import "log"
 import "net/http"
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -15,5 +16,8 @@ func main() {
 	http.HandleFunc("/index", index)
 
 	fmt.Println("starting web server at http://localhost:8080/")
-	http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

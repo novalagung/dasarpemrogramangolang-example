@@ -14,7 +14,7 @@ func (c *counter) Add(x int) {
 	c.val++
 }
 
-func (c *counter) Value() (x int) {
+func (c *counter) Value() int {
 	return c.val
 }
 

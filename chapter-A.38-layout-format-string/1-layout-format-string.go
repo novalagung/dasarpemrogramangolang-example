@@ -46,7 +46,7 @@ func main() {
 
 	fmt.Printf("%p\n", &data.name) // 0x2081be0c0
 
-	fmt.Printf("%q\n", `" name \ height "`) // "\" name \\\\ height \""
+	fmt.Printf("%q\n", `" name \ height "`) // "\" name \\ height \""
 
 	fmt.Printf("%s\n", data.name) // wick
 

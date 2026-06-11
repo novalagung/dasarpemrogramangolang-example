@@ -12,13 +12,13 @@ func getAverage(numbers []int, ch chan float64) {
 }
 
 func getMax(numbers []int, ch chan int) {
-	var max = numbers[0]
+	var maxNum = numbers[0]
 	for _, e := range numbers {
-		if max < e {
-			max = e
+		if maxNum < e {
+			maxNum = e
 		}
 	}
-	ch <- max
+	ch <- maxNum
 }
 
 func main() {
@@ -37,8 +37,8 @@ func main() {
 		select {
 		case avg := <-ch1:
 			fmt.Printf("Avg \t: %.2f \n", avg)
-		case max := <-ch2:
-			fmt.Printf("Max \t: %d \n", max)
+		case maxNum := <-ch2:
+			fmt.Printf("Max \t: %d \n", maxNum)
 		}
 	}
 }

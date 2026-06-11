@@ -15,9 +15,11 @@ func isError(err error) bool {
 }
 
 func readFile() {
-    // buka file
-    var file, err = os.OpenFile(path, os.O_RDWR, 0644)
-	if isError(err) { return }
+	// buka file
+	var file, err = os.OpenFile(path, os.O_RDONLY, 0644)
+	if isError(err) {
+		return
+	}
 	defer file.Close()
 
 	// baca file
@@ -30,13 +32,17 @@ func readFile() {
 				err = nil
 				break
 			}
-			if isError(err) { return }
+			if isError(err) {
+				return
+			}
 		}
 		if n == 0 {
 			break
 		}
 	}
-	if isError(err) { return }
+	if isError(err) {
+		return
+	}
 
 	fmt.Println("==> file berhasil dibaca")
 	fmt.Println(string(text))

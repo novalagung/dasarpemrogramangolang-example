@@ -4,7 +4,7 @@ import "encoding/base64"
 import "fmt"
 
 func main() {
-	var data = "http://developer.com/"
+	var data = "https://novalagung.com/"
 
 	var encodedString = base64.URLEncoding.EncodeToString([]byte(data))
 	fmt.Println(encodedString)

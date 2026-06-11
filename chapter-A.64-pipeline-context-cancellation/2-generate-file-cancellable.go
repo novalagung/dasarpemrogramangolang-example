@@ -15,7 +15,7 @@ const totalFile = 3000
 const contentLength = 5000
 const timeoutDuration = 3 * time.Second
 
-var tempPath = filepath.Join(os.Getenv("TEMP"), "temp-pipeline-context-cancellation")
+var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.64-pipeline-cancellation-context")
 
 type FileInfo struct {
 	Index       int
@@ -59,7 +59,7 @@ func generateFiles() {
 
 func generateFilesWithContext(ctx context.Context) {
 	os.RemoveAll(tempPath)
-	os.MkdirAll(tempPath, os.ModePerm)
+	os.MkdirAll(tempPath, 0755)
 
 	done := make(chan int)
 
@@ -130,7 +130,7 @@ func createFiles(ctx context.Context, chanIn <-chan FileInfo, numberOfWorkers in
 					default:
 						filePath := filepath.Join(tempPath, job.FileName)
 						content := randomString(contentLength)
-						err := os.WriteFile(filePath, []byte(content), os.ModePerm)
+						err := os.WriteFile(filePath, []byte(content), 0644)
 
 						log.Println("worker", workerIndex, "working on", job.FileName, "file generation")
 

@@ -9,7 +9,7 @@ type User struct {
 }
 
 func main() {
-	var object = []User{{"john wick", 27}, {"ethan hunt", 32}}
+	var object = []User{{FullName: "john wick", Age: 27}, {FullName: "ethan hunt", Age: 32}}
 	var jsonData, err = json.Marshal(object)
 	if err != nil {
 		fmt.Println(err.Error())

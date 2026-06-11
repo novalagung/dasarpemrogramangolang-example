@@ -7,7 +7,6 @@ import (
 )
 
 type counter struct {
-	sync.Mutex
 	val int
 }
 
@@ -15,7 +14,7 @@ func (c *counter) Add(x int) {
 	c.val++
 }
 
-func (c *counter) Value() (x int) {
+func (c *counter) Value() int {
 	return c.val
 }
 

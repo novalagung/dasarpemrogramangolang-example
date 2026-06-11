@@ -32,8 +32,8 @@ loop:
 func main() {
 	runtime.GOMAXPROCS(2)
 
-	var messages = make(chan int)
+	var ch = make(chan int)
 
-	go sendData(messages)
-	retrieveData(messages)
+	go sendData(ch)
+	retrieveData(ch)
 }

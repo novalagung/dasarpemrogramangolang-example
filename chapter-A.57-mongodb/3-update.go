@@ -5,27 +5,20 @@ import (
 	"fmt"
 	"log"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
-var ctx = func() context.Context {
-	return context.Background()
-}()
+var ctx = context.Background()
 
 type student struct {
 	Name  string `bson:"name"`
-	Grade int    `bson:"Grade"`
+	Grade int    `bson:"grade"`
 }
 
 func connect() (*mongo.Database, error) {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
-	if err != nil {
-		return nil, err
-	}
-
-	err = client.Connect(ctx)
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
 		return nil, err
 	}
