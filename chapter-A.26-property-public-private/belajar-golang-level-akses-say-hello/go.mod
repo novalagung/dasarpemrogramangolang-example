@@ -1,3 +1,3 @@
 module belajar-golang-level-akses-say-hello
 
-go 1.20
+go 1.26.4

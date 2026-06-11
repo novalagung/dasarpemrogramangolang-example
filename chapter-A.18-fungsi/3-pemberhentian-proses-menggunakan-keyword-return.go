@@ -10,7 +10,7 @@ func main() {
 
 func divideNumber(m, n int) {
 	if n == 0 {
-		fmt.Printf("invalid divider. %d cannot divided by %d\n", m, n)
+		fmt.Printf("invalid divider. %d cannot be divided by %d\n", m, n)
 		return
 	}
 

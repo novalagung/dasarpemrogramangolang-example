@@ -14,8 +14,10 @@ func isError(err error) bool {
 }
 
 func deleteFile() {
-    var err = os.Remove(path)
-	if isError(err) { return }
+	var err = os.Remove(path)
+	if isError(err) {
+		return
+	}
 
 	fmt.Println("==> file berhasil di delete")
 }

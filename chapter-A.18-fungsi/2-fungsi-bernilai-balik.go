@@ -19,7 +19,7 @@ func main() {
 	fmt.Println("random number:", randomValue)
 }
 
-func randomWithRange(min, max int) int {
-	var value = randomizer.Int()%(max-min+1) + min
+func randomWithRange(minNum, maxNum int) int {
+	var value = randomizer.Int()%(maxNum-minNum+1) + minNum
 	return value
 }

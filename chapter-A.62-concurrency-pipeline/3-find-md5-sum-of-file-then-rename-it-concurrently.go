@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-var tempPath = filepath.Join(os.Getenv("TEMP"), "temp-concurrency-pipeline")
+var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.62-concurrency-pipeline")
 
 type FileInfo struct {
 	FilePath  string // file location
@@ -61,12 +61,12 @@ func readFiles() <-chan FileInfo {
 	go func() {
 		err := filepath.Walk(tempPath, func(path string, info os.FileInfo, err error) error {
 
-			// if there is an error, return immediatelly
+			// if there is an error, return immediately
 			if err != nil {
 				return err
 			}
 
-			// if it is a sub directory, return immediatelly
+			// if it is a sub directory, return immediately
 			if info.IsDir() {
 				return nil
 			}

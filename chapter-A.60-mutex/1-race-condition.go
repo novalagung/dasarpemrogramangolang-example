@@ -10,11 +10,11 @@ type counter struct {
 	val int
 }
 
-func (c *counter) Add(x int) {
+func (c *counter) Add() {
 	c.val++
 }
 
-func (c *counter) Value() (x int) {
+func (c *counter) Value() int {
 	return c.val
 }
 
@@ -29,7 +29,7 @@ func main() {
 
 		go func() {
 			for j := 0; j < 1000; j++ {
-				meter.Add(1)
+				meter.Add()
 			}
 
 			wg.Done()

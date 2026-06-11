@@ -9,9 +9,9 @@ func main() {
 
 	var str1 = regex.FindAllString(text, -1)
 	fmt.Println(str1)
-	// ["banana" "burger" "soup"]
+	// [banana burger soup]
 
 	var str2 = regex.FindAllString(text, 1)
 	fmt.Println(str2)
-	// ["banana"]
+	// [banana]
 }

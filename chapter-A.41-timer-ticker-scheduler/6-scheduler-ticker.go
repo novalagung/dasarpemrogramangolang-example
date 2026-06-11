@@ -10,7 +10,7 @@ func main() {
 	ticker := time.NewTicker(time.Second)
 
 	go func() {
-		time.Sleep(10 * time.Second)
+		time.Sleep(10 * time.Second) // wait for 10 seconds
 		done <- true
 	}()
 

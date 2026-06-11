@@ -14,16 +14,16 @@ func validate(input string) (bool, error) {
 }
 
 func catch() {
-if r := recover(); r != nil {
-        fmt.Println("Error occurred", r)
-    } else {
-        fmt.Println("Application running perfectly")
-    }
+	if r := recover(); r != nil {
+		fmt.Println("Error occurred", r)
+	} else {
+		fmt.Println("Application running perfectly")
+	}
 }
 
 func main() {
 	defer catch()
-	
+
 	var name string
 	fmt.Print("Type your name: ")
 	fmt.Scanln(&name)

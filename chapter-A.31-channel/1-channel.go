@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
-import "runtime"
+import (
+	"fmt"
+	"runtime"
+)
 
 func main() {
 	runtime.GOMAXPROCS(2)
@@ -13,9 +15,9 @@ func main() {
 		messages <- data
 	}
 
-	go sayHelloTo("john wick")
-	go sayHelloTo("ethan hunt")
-	go sayHelloTo("jason bourne")
+	go sayHelloTo("wick")
+	go sayHelloTo("hunt")
+	go sayHelloTo("bourne")
 
 	var message1 = <-messages
 	fmt.Println(message1)
