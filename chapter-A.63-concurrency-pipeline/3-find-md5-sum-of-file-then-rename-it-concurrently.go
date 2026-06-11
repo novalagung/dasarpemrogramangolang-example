@@ -3,7 +3,6 @@ package main
 import (
 	"crypto/md5"
 	"fmt"
-	"io/fs"
 	"log"
 	"os"
 	"path/filepath"
@@ -11,32 +10,36 @@ import (
 	"time"
 )
 
-var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.62-concurrency-pipeline")
+var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.63-concurrency-pipeline")
 
 type FileInfo struct {
-	FilePath  string
-	Content   []byte
-	Sum       string
-	IsRenamed bool
+	FilePath  string // file location
+	Content   []byte // file content
+	Sum       string // md5 sum of content
+	IsRenamed bool   // indicator whether the particular file is renamed already or not
 }
 
 func main() {
 	log.Println("start")
 	start := time.Now()
 
-	chanFileContent := readFilesV2()
+	// pipeline 1: loop all files and read it
+	chanFileContent := readFiles()
 
+	// pipeline 2: calculate md5sum
 	chanFileSum1 := getSum(chanFileContent)
 	chanFileSum2 := getSum(chanFileContent)
 	chanFileSum3 := getSum(chanFileContent)
 	chanFileSum := mergeChanFileInfo(chanFileSum1, chanFileSum2, chanFileSum3)
 
+	// pipeline 3: rename files
 	chanRename1 := rename(chanFileSum)
 	chanRename2 := rename(chanFileSum)
 	chanRename3 := rename(chanFileSum)
 	chanRename4 := rename(chanFileSum)
 	chanRename := mergeChanFileInfo(chanRename1, chanRename2, chanRename3, chanRename4)
 
+	// print output
 	counterRenamed := 0
 	counterTotal := 0
 	for fileInfo := range chanRename {
@@ -47,19 +50,24 @@ func main() {
 	}
 
 	log.Printf("%d/%d files renamed", counterRenamed, counterTotal)
+
 	duration := time.Since(start)
 	log.Println("done in", duration.Seconds(), "seconds")
 }
 
-func readFilesV2() <-chan FileInfo {
+func readFiles() <-chan FileInfo {
 	chanOut := make(chan FileInfo)
 
 	go func() {
-		err := filepath.WalkDir(tempPath, func(path string, d fs.DirEntry, err error) error {
+		err := filepath.Walk(tempPath, func(path string, info os.FileInfo, err error) error {
+
+			// if there is an error, return immediately
 			if err != nil {
 				return err
 			}
-			if d.IsDir() {
+
+			// if it is a sub directory, return immediately
+			if info.IsDir() {
 				return nil
 			}
 
@@ -72,11 +80,13 @@ func readFilesV2() <-chan FileInfo {
 				FilePath: path,
 				Content:  buf,
 			}
+
 			return nil
 		})
 		if err != nil {
 			log.Println("ERROR:", err.Error())
 		}
+
 		close(chanOut)
 	}()
 
@@ -85,6 +95,7 @@ func readFilesV2() <-chan FileInfo {
 
 func getSum(chanIn <-chan FileInfo) <-chan FileInfo {
 	chanOut := make(chan FileInfo)
+
 	go func() {
 		for fileInfo := range chanIn {
 			fileInfo.Sum = fmt.Sprintf("%x", md5.Sum(fileInfo.Content))
@@ -92,11 +103,13 @@ func getSum(chanIn <-chan FileInfo) <-chan FileInfo {
 		}
 		close(chanOut)
 	}()
+
 	return chanOut
 }
 
 func rename(chanIn <-chan FileInfo) <-chan FileInfo {
 	chanOut := make(chan FileInfo)
+
 	go func() {
 		for fileInfo := range chanIn {
 			newPath := filepath.Join(tempPath, fmt.Sprintf("file-%s.txt", fileInfo.Sum))
@@ -104,8 +117,10 @@ func rename(chanIn <-chan FileInfo) <-chan FileInfo {
 			fileInfo.IsRenamed = err == nil
 			chanOut <- fileInfo
 		}
+
 		close(chanOut)
 	}()
+
 	return chanOut
 }
 

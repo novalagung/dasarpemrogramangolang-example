@@ -12,7 +12,7 @@ import (
 const totalFile = 3000
 const contentLength = 5000
 
-var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.63-simplified-fan-in-fan-out-pipeline")
+var tempPath = filepath.Join(os.Getenv("TEMP"), "chapter-A.64-simplified-fan-in-fan-out-pipeline")
 
 func main() {
 	log.Println("start")
