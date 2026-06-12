@@ -14,7 +14,7 @@ func Auth(w http.ResponseWriter, r *http.Request) bool {
 
 	isValid := (username == USERNAME) && (password == PASSWORD)
 	if !isValid {
-		w.Write([]byte(`wrong username/password`))
+		http.Error(w, "wrong username/password", http.StatusUnauthorized)
 		return false
 	}
 
@@ -23,7 +23,7 @@ func Auth(w http.ResponseWriter, r *http.Request) bool {
 
 func AllowOnlyGET(w http.ResponseWriter, r *http.Request) bool {
 	if r.Method != "GET" {
-		w.Write([]byte("Only GET is allowed"))
+		http.Error(w, "Only GET is allowed", http.StatusMethodNotAllowed)
 		return false
 	}
 

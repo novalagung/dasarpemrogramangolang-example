@@ -1,6 +1,7 @@
 package main
 
 import "fmt"
+import "log"
 import "net/http"
 import "time"
 
@@ -29,6 +30,6 @@ func main() {
 
 	err := server.ListenAndServe()
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Fatal(err)
 	}
 }

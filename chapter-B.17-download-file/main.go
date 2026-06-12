@@ -1,12 +1,15 @@
 package main
 
-import "fmt"
-import "net/http"
-import "html/template"
-import "path/filepath"
-import "io"
-import "encoding/json"
-import "os"
+import (
+	"encoding/json"
+	"fmt"
+	"html/template"
+	"io"
+	"log"
+	"net/http"
+	"os"
+	"path/filepath"
+)
 
 type M map[string]interface{}
 
@@ -15,8 +18,11 @@ func main() {
 	http.HandleFunc("/list-files", handleListFiles)
 	http.HandleFunc("/download", handleDownload)
 
-	fmt.Println("server started at localhost:9000")
-	http.ListenAndServe(":9000", nil)
+	log.Println("server started at localhost:9000")
+	err := http.ListenAndServe(":9000", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
@@ -31,16 +37,16 @@ func handleListFiles(w http.ResponseWriter, r *http.Request) {
 	basePath, _ := os.Getwd()
 	filesLocation := filepath.Join(basePath, "files")
 
-	err := filepath.Walk(filesLocation, func(path string, info os.FileInfo, err error) error {
+	err := filepath.WalkDir(filesLocation, func(path string, d os.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
 
-		if info.IsDir() {
+		if d.IsDir() {
 			return nil
 		}
 
-		files = append(files, M{"filename": info.Name(), "path": path})
+		files = append(files, M{"filename": d.Name(), "path": path})
 
 		return nil
 	})
@@ -75,7 +81,7 @@ func handleDownload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	contentDisposition := fmt.Sprintf("attachment; filename=%s", f.Name())
+	contentDisposition := fmt.Sprintf("attachment; filename=%s", filepath.Base(f.Name()))
 	w.Header().Set("Content-Disposition", contentDisposition)
 
 	if _, err := io.Copy(w, f); err != nil {

@@ -1,19 +1,24 @@
 package main
 
-import "fmt"
-import "net/http"
-import "html/template"
-import "path/filepath"
-import "io"
-import "os"
+import (
+	"html/template"
+	"io"
+	"log"
+	"net/http"
+	"os"
+	"path/filepath"
+)
 
 func main() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/upload", handleUpload)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("assets"))))
 
-	fmt.Println("server started at localhost:9000")
-	http.ListenAndServe(":9000", nil)
+	log.Println("server started at localhost:9000")
+	err := http.ListenAndServe(":9000", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
@@ -49,12 +54,13 @@ func handleUpload(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		defer dst.Close()
 
 		if _, err := io.Copy(dst, part); err != nil {
+			dst.Close()
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		dst.Close()
 	}
 
 	w.Write([]byte(`all files uploaded`))

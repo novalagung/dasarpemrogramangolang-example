@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
-import "net/http"
+import (
+	"log"
+	"net/http"
+)
 
 func main() {
 	handlerIndex := func(w http.ResponseWriter, r *http.Request) {
@@ -14,6 +16,9 @@ func main() {
 		w.Write([]byte("hello again"))
 	})
 
-	fmt.Println("server started at localhost:9000")
-	http.ListenAndServe(":9000", nil)
+	log.Println("server started at localhost:9000")
+	err := http.ListenAndServe(":9000", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

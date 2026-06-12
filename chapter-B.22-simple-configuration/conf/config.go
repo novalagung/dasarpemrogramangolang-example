@@ -29,20 +29,17 @@ func init() {
 	basePath, err := os.Getwd()
 	if err != nil {
 		panic(err)
-		return
 	}
 
 	bts, err := os.ReadFile(filepath.Join(basePath, "conf", "config.json"))
 	if err != nil {
 		panic(err)
-		return
 	}
 
 	shared = new(_Configuration)
 	err = json.Unmarshal(bts, &shared)
 	if err != nil {
 		panic(err)
-		return
 	}
 }
 

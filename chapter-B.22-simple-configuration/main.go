@@ -6,14 +6,14 @@ import (
 	"net/http"
 	"time"
 
-	"chapter-B.22-simple-configuration/conf"
+	"example/chapter-B.22-simple-configuration/conf"
 )
 
 type CustomMux struct {
 	http.ServeMux
 }
 
-func (c CustomMux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (c *CustomMux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if conf.Configuration().Log.Verbose {
 		log.Println("Incoming request from", r.Host, "accessing", r.URL.String())
 	}
@@ -42,6 +42,6 @@ func main() {
 
 	err := server.ListenAndServe()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }

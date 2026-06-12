@@ -1,10 +1,12 @@
 package main
 
-import "net/http"
-import "fmt"
-import "encoding/json"
+import (
+	"encoding/json"
+	"log"
+	"net/http"
+)
 
-func OutputJSON(w http.ResponseWriter, o interface{}) {
+func OutputJSON(w http.ResponseWriter, o any) {
 	res, err := json.Marshal(o)
 	if err != nil {
 		w.Write([]byte(err.Error()))
@@ -37,8 +39,10 @@ func main() {
 	server.Addr = ":9000"
 	server.Handler = mux
 
-	fmt.Println("server started at localhost:9000")
-	server.ListenAndServe()
+	log.Println("server started at localhost:9000")
+	if err := server.ListenAndServe(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 // ===== Test

@@ -1,18 +1,17 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 )
 
-type M map[string]interface{}
+type M map[string]any
 
 func main() {
 	var tmpl, err = template.ParseGlob("views/*")
 	if err != nil {
 		panic(err.Error())
-		return
 	}
 
 	http.HandleFunc("/index", func(w http.ResponseWriter, r *http.Request) {
@@ -31,6 +30,9 @@ func main() {
 		}
 	})
 
-	fmt.Println("server started at localhost:9000")
-	http.ListenAndServe(":9000", nil)
+	log.Println("server started at localhost:9000")
+	err = http.ListenAndServe(":9000", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
