@@ -2,32 +2,31 @@
 <html>
 	<head>
 		<title>Multiple Upload</title>
-		<script src="static/jquery-3.3.1.min.js"></script>
 		<script>
-			$(function () {
-				$("#user-form").on("submit", function (e) {
+			document.addEventListener("DOMContentLoaded", function () {
+				document.getElementById("user-form").addEventListener("submit", async function (e) {
 					e.preventDefault();
 
-					var $self = $(this);
-					var files = $("#upload-file")[0].files;
-					var formData = new FormData();
+					const form = e.target;
+					const files = document.getElementById("upload-file").files;
+					const formData = new FormData();
 
-					for (var i = 0; i < files.length; i++) {
-						formData.append("files", files[i]);
+					for (const file of files) {
+						formData.append("files", file);
 					}
 
-					$.ajax({
-						url: $self.attr("action"),
-						type: $self.attr("method"),
-						data: formData,
-						processData: false,
-						contentType: false,
-					}).then(function (res) {
-						alert(res);
-						$("#user-form").trigger("reset");
-					}).catch(function (a) {
-						alert("ERROR: " + a.responseText);
-					});
+					try {
+						const res = await fetch(form.action, {
+							method: form.method,
+							body: formData,
+						});
+						const text = await res.text();
+						if (!res.ok) throw new Error(text);
+						alert(text);
+						form.reset();
+					} catch (err) {
+						alert("ERROR: " + err.message);
+					}
 				});
 			});
 		</script>
