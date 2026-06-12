@@ -2,29 +2,30 @@
 <html>
 	<head>
 		<title>JSON Payload</title>
-		<script src="static/jquery-3.3.1.min.js"></script>
 		<script>
-			$(function () {
-				$("#user-form").on("submit", function (e) {
+			document.addEventListener("DOMContentLoaded", function () {
+				document.getElementById("user-form").addEventListener("submit", async function (e) {
 					e.preventDefault();
 
-					var $self = $(this);
-					var payload = JSON.stringify({
-						name: $('[name="name"]').val(),
-						age: parseInt($('[name="age"]').val(), 10),
-						gender: $('[name="gender"]').val()
+					const form = e.target;
+					const payload = JSON.stringify({
+						name: document.querySelector('[name="name"]').value,
+						age: parseInt(document.querySelector('[name="age"]').value, 10),
+						gender: document.querySelector('[name="gender"]').value,
 					});
 
-					$.ajax({
-						url: $self.attr("action"),
-						type: $self.attr("method"),
-						data: payload,
-						contentType: 'application/json',
-					}).then(function (res) {
-						$(".message").text(res);
-					}).catch(function (a) {
-						alert("ERROR: " + a.responseText);
-					});
+					try {
+						const res = await fetch(form.action, {
+							method: form.method,
+							headers: { "Content-Type": "application/json" },
+							body: payload,
+						});
+						const text = await res.text();
+						if (!res.ok) throw new Error(text);
+						document.querySelector(".message").textContent = text;
+					} catch (err) {
+						alert("ERROR: " + err.message);
+					}
 				});
 			});
 		</script>

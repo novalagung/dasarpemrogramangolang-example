@@ -45,7 +45,7 @@
     <div class="container"></div>
 
     <div class="form">
-        <form onsubmit="app.doSendMessage(); return false;">
+        <form>
             <div class="placeholder">
                 <label>Hello <b class="username"></b>. Say something:</label>
             </div>
@@ -55,68 +55,63 @@
     </div>
 
     <script type="text/javascript">
-        var app = {}
-        app.ws = undefined
-        app.container = undefined
+        const app = {};
+        app.ws = null;
+        app.container = null;
 
         app.print = function (message) {
-            var el = document.createElement("p")
-            el.innerHTML = message
-            app.container.append(el)
-        }
+            const el = document.createElement("p");
+            el.innerHTML = message;
+            app.container.append(el);
+        };
 
         app.doSendMessage = function () {
-            var messageRaw = document.querySelector('.input-message').value
-            app.ws.send(JSON.stringify({
-                Message: messageRaw
-            }));
-
-            var message = '<b>me</b>: ' + messageRaw
-            app.print(message)
-
-            document.querySelector('.input-message').value = ''
-        }
+            const messageRaw = document.querySelector(".input-message").value;
+            app.ws.send(JSON.stringify({ Message: messageRaw }));
+            app.print("<b>me</b>: " + messageRaw);
+            document.querySelector(".input-message").value = "";
+        };
 
         app.init = function () {
-            if (!(window.WebSocket)) {
-                alert('Your browser does not support WebSocket')
-                return
+            if (!window.WebSocket) {
+                alert("Your browser does not support WebSocket");
+                return;
             }
 
-            var name = prompt('Enter your name please:') || "No name"
-            document.querySelector('.username').innerText = name
+            const name = prompt("Enter your name please:") || "No name";
+            document.querySelector(".username").innerText = name;
+            app.container = document.querySelector(".container");
+            app.ws = new WebSocket("ws://localhost:8080/ws?username=" + name);
 
-            app.container = document.querySelector('.container')
-
-            app.ws = new WebSocket("ws://localhost:8080/ws?username=" + name)
-
-            app.ws.onopen = function() {
-                var message = '<b>me</b>: connected'
-                app.print(message)
-            }
+            app.ws.onopen = function () {
+                app.print("<b>me</b>: connected");
+            };
 
             app.ws.onmessage = function (event) {
-                var res = JSON.parse(event.data)
-
-                var messsage = ''
-                if (res.Type === 'New User') {
-                    message = 'User <b>' + res.From + '</b>: connected'
-                } else if (res.Type === 'Leave') {
-                    message = 'User <b>' + res.From + '</b>: disconnected'
+                const res = JSON.parse(event.data);
+                let message = "";
+                if (res.Type === "New User") {
+                    message = "User <b>" + res.From + "</b>: connected";
+                } else if (res.Type === "Leave") {
+                    message = "User <b>" + res.From + "</b>: disconnected";
                 } else {
-                    message = '<b>' + res.From + '</b>: ' + res.Message 
+                    message = "<b>" + res.From + "</b>: " + res.Message;
                 }
-
-                app.print(message)
-            }
+                app.print(message);
+            };
 
             app.ws.onclose = function () {
-                var message = '<b>me</b>: disconnected'
-                app.print(message)
-            }
-        }
+                app.print("<b>me</b>: disconnected");
+            };
+        };
 
-        window.onload = app.init
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector("form").addEventListener("submit", function (e) {
+                e.preventDefault();
+                app.doSendMessage();
+            });
+            app.init();
+        });
     </script>
 </body>
 </html>

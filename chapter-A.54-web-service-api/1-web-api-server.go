@@ -1,8 +1,11 @@
 package main
 
-import "encoding/json"
-import "net/http"
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+)
 
 type student struct {
 	ID    string
@@ -69,5 +72,8 @@ func main() {
 	http.HandleFunc("/user", user)
 
 	fmt.Println("starting web server at http://localhost:8080/")
-	http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

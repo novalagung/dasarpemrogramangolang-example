@@ -12,7 +12,6 @@ import (
 func main() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/upload", handleUpload)
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("assets"))))
 
 	log.Println("server started at localhost:9000")
 	err := http.ListenAndServe(":9000", nil)
