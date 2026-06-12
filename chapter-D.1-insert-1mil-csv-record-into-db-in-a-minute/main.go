@@ -163,6 +163,12 @@ func doTheJob(workerIndex, counter int, db *sql.DB, values []interface{}) {
 			}()
 
 			conn, err := db.Conn(context.Background())
+			if err != nil {
+				*outerError = err
+				return
+			}
+			defer conn.Close()
+
 			query := fmt.Sprintf("INSERT INTO domain (%s) VALUES (%s)",
 				strings.Join(dataHeaders, ","),
 				strings.Join(generateQuestionsMark(len(dataHeaders)), ","),
@@ -170,17 +176,14 @@ func doTheJob(workerIndex, counter int, db *sql.DB, values []interface{}) {
 
 			_, err = conn.ExecContext(context.Background(), query, values...)
 			if err != nil {
-				log.Fatal(err.Error())
-			}
-
-			err = conn.Close()
-			if err != nil {
-				log.Fatal(err.Error())
+				*outerError = err
+				return
 			}
 		}(&outerError)
 		if outerError == nil {
 			break
 		}
+		log.Println("=> retrying insert, error:", outerError)
 	}
 
 	if counter%100 == 0 {
