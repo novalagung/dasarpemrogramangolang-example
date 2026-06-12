@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
+	"errors"
+	"io"
 	"log"
 	"net/http"
-	"strings"
 	"time"
 )
 
@@ -12,6 +14,11 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	go func() {
 		// do the process here
 		// simulate a long-time request by putting 10 seconds sleep
+
+		body, err := io.ReadAll(r.Body)
+		_ = err
+		_ = body
+
 		time.Sleep(10 * time.Second)
 
 		done <- true
@@ -20,7 +27,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	select {
 	case <-r.Context().Done():
 		if err := r.Context().Err(); err != nil {
-			if strings.Contains(strings.ToLower(err.Error()), "canceled") {
+			if errors.Is(err, context.Canceled) {
 				log.Println("request canceled")
 			} else {
 				log.Println("unknown error occurred.", err.Error())
@@ -32,6 +39,10 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", handleIndex)
-	http.ListenAndServe(":8080", nil)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", handleIndex)
+	err := http.ListenAndServe(":9000", mux)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

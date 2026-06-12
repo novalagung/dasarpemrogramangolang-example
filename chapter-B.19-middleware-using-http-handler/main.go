@@ -1,8 +1,10 @@
 package main
 
-import "net/http"
-import "fmt"
-import "encoding/json"
+import (
+	"encoding/json"
+	"log"
+	"net/http"
+)
 
 func OutputJSON(w http.ResponseWriter, o interface{}) {
 	res, err := json.Marshal(o)
@@ -38,8 +40,10 @@ func main() {
 	server.Addr = ":9000"
 	server.Handler = handler
 
-	fmt.Println("server started at localhost:9000")
-	server.ListenAndServe()
+	log.Println("server started at localhost:9000")
+	if err := server.ListenAndServe(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 // ===== Test

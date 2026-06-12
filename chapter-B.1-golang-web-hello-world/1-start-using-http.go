@@ -1,6 +1,7 @@
 package main
 
 import "fmt"
+import "log"
 import "net/http"
 
 func handlerIndex(w http.ResponseWriter, r *http.Request) {
@@ -22,6 +23,6 @@ func main() {
 	fmt.Printf("server started at %s\n", address)
 	err := http.ListenAndServe(address, nil)
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Fatal(err)
 	}
 }

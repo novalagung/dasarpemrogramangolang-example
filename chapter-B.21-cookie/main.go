@@ -1,14 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"time"
 
 	"github.com/novalagung/gubrak/v2"
 )
 
-type M map[string]interface{}
+type M map[string]any
 
 var cookieName = "CookieData"
 
@@ -45,6 +45,9 @@ func main() {
 	http.HandleFunc("/", ActionIndex)
 	http.HandleFunc("/delete", ActionDelete)
 
-	fmt.Println("server started at localhost:9000")
-	http.ListenAndServe(":9000", nil)
+	log.Println("server started at localhost:9000")
+	err := http.ListenAndServe(":9000", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

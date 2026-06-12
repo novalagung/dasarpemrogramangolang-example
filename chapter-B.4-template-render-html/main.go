@@ -1,20 +1,22 @@
 package main
 
-import "fmt"
-import "net/http"
-import "html/template"
-import "path"
+import (
+	"html/template"
+	"log"
+	"net/http"
+	"path/filepath"
+)
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		var filepath = path.Join("views", "index.html")
-		var tmpl, err = template.ParseFiles(filepath)
+		var tmplPath = filepath.Join("views", "index.html")
+		var tmpl, err = template.ParseFiles(tmplPath)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		var data = map[string]interface{}{
+		var data = map[string]any{
 			"title": "Learning Golang Web",
 			"name":  "Batman",
 		}
@@ -27,6 +29,9 @@ func main() {
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("assets"))))
 
-	fmt.Println("server started at localhost:9000")
-	http.ListenAndServe(":9000", nil)
+	log.Println("server started at localhost:9000")
+	err := http.ListenAndServe(":9000", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
