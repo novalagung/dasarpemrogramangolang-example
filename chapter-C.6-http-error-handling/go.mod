@@ -1,6 +1,6 @@
 module chapter-C.6-http-error-handling
 
-go 1.20
+go 1.25.0
 
 require (
 	github.com/go-playground/validator/v10 v10.2.0
@@ -16,8 +16,8 @@ require (
 	github.com/mattn/go-isatty v0.0.9 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.0.1 // indirect
-	golang.org/x/crypto v0.1.0 // indirect
-	golang.org/x/net v0.1.0 // indirect
-	golang.org/x/sys v0.1.0 // indirect
-	golang.org/x/text v0.4.0 // indirect
+	golang.org/x/crypto v0.52.0 // indirect
+	golang.org/x/net v0.54.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
+	golang.org/x/text v0.37.0 // indirect
 )
